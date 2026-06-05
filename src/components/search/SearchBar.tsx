@@ -30,29 +30,39 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const { search: searchLocations } = useSearchLocations();
   const { cities: popularCities } = usePopularCities();
 
-  const handleChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setQuery(val);
-    setActiveIdx(-1);
-    if (val.trim().length > 0) {
-      const found = await searchLocations(val);
-      setResults(found);
-      setIsOpen(true);
-    } else {
-      setResults([]);
-      setIsOpen(true); // show recents/popular
-    }
-  }, [searchLocations]);
+  const handleChange = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const val = e.target.value;
+      setQuery(val);
+      setActiveIdx(-1);
+      if (val.trim().length > 0) {
+        const found = await searchLocations(val);
+        setResults(found);
+        setIsOpen(true);
+      } else {
+        setResults([]);
+        setIsOpen(true); // show recents/popular
+      }
+    },
+    [searchLocations],
+  );
 
-  const handleSelect = useCallback((location: SearchResult) => {
-    setQuery("");
-    setIsOpen(false);
-    setResults([]);
-    onSelect(location);
-  }, [onSelect]);
+  const handleSelect = useCallback(
+    (location: SearchResult) => {
+      setQuery("");
+      setIsOpen(false);
+      setResults([]);
+      onSelect(location);
+    },
+    [onSelect],
+  );
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    const list = query ? results : recentSearches.length ? recentSearches : POPULAR_CITIES;
+    const list = query
+      ? results
+      : recentSearches.length
+        ? recentSearches
+        : popularCities;
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setActiveIdx((i) => Math.min(i + 1, list.length - 1));
@@ -71,8 +81,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
-        dropdownRef.current && !dropdownRef.current.contains(e.target as Node) &&
-        inputRef.current && !inputRef.current.contains(e.target as Node)
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node) &&
+        inputRef.current &&
+        !inputRef.current.contains(e.target as Node)
       ) {
         setIsOpen(false);
       }
@@ -82,15 +94,29 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   }, []);
 
   const showDropdown = isOpen;
-  const displayList = query ? results : recentSearches.length ? recentSearches : popularCities;
-  const sectionLabel = query ? "Rezultate" : recentSearches.length ? "Kërkimet e fundit" : "Qytetet e njohura";
-  const sectionIcon = query ? null : recentSearches.length ? <Clock className="w-3.5 h-3.5" /> : <TrendingUp className="w-3.5 h-3.5" />;
+  const displayList = query
+    ? results
+    : recentSearches.length
+      ? recentSearches
+      : popularCities;
+  const sectionLabel = query
+    ? "Rezultate"
+    : recentSearches.length
+      ? "Kërkimet e fundit"
+      : "Qytetet e njohura";
+  const sectionIcon = query ? null : recentSearches.length ? (
+    <Clock className="w-3.5 h-3.5" />
+  ) : (
+    <TrendingUp className="w-3.5 h-3.5" />
+  );
 
   return (
     <div className="relative w-full">
-      <div className={`flex items-center gap-2.5 px-4 py-3 rounded-2xl border transition-all duration-200
+      <div
+        className={`flex items-center gap-2.5 px-4 py-3 rounded-2xl border transition-all duration-200
         ${isOpen ? "bg-moti-navy border-moti-sky/60 shadow-glow-sky ring-1 ring-moti-sky/20" : "bg-white/[0.08] border-white/[0.12] hover:border-white/20"}
-      `}>
+      `}
+      >
         <Search className="w-4 h-4 text-white/40 flex-shrink-0" />
         <input
           ref={inputRef}
@@ -108,7 +134,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         />
         {query && (
           <button
-            onClick={() => { setQuery(""); setResults([]); inputRef.current?.focus(); }}
+            onClick={() => {
+              setQuery("");
+              setResults([]);
+              inputRef.current?.focus();
+            }}
             className="flex-shrink-0 text-white/40 hover:text-white/80 transition-colors"
             aria-label="Fshi kërkimin"
           >
@@ -142,8 +172,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 >
                   <MapPin className="w-4 h-4 text-moti-sky flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-semibold text-white leading-none">{city.nameAl}</div>
-                    <div className="text-xs text-white/40 mt-0.5">{city.region}, {city.country}</div>
+                    <div className="text-sm font-semibold text-white leading-none">
+                      {city.nameAl}
+                    </div>
+                    <div className="text-xs text-white/40 mt-0.5">
+                      {city.region}, {city.country}
+                    </div>
                   </div>
                   {city.population && (
                     <span className="text-xs text-white/30 flex-shrink-0">
