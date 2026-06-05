@@ -1,0 +1,2178 @@
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-aa47213c.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-60dc2a88.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-88769a1e.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-0585f5a7.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-244686ad.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-58e5057a.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c012394d.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-b8c55b0e.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-6fa0783f.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-aa47213c.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-60dc2a88.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-88769a1e.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-0585f5a7.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-244686ad.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-58e5057a.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c012394d.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-b8c55b0e.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-6fa0783f.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-aa47213c.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-60dc2a88.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-88769a1e.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-0585f5a7.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-244686ad.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-58e5057a.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c012394d.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-b8c55b0e.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-6fa0783f.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-aa47213c.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-60dc2a88.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-88769a1e.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-0585f5a7.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-244686ad.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-58e5057a.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c012394d.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-b8c55b0e.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-6fa0783f.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-aa47213c.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-60dc2a88.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-88769a1e.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-0585f5a7.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-244686ad.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-58e5057a.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c012394d.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-b8c55b0e.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-6fa0783f.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-aa47213c.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-60dc2a88.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-88769a1e.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-0585f5a7.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-244686ad.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-58e5057a.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c012394d.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-b8c55b0e.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-6fa0783f.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-aa47213c.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-60dc2a88.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-88769a1e.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-0585f5a7.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-244686ad.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-58e5057a.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c012394d.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-b8c55b0e.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-6fa0783f.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-aa47213c.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-60dc2a88.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-88769a1e.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-0585f5a7.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-244686ad.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-58e5057a.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c012394d.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-b8c55b0e.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-6fa0783f.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-aa47213c.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-60dc2a88.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-88769a1e.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-0585f5a7.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-244686ad.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-58e5057a.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c012394d.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-b8c55b0e.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-6fa0783f.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-1dba1bc2.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c4482425.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-a1dc56af.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-20c48c4e.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-3603e9b2.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-31b09f96.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-bf5e5259.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-41d25e69.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-fb5169d9.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-1dba1bc2.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c4482425.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-a1dc56af.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-20c48c4e.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-3603e9b2.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-31b09f96.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-bf5e5259.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-41d25e69.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-fb5169d9.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-1dba1bc2.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c4482425.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-a1dc56af.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-20c48c4e.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-3603e9b2.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-31b09f96.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-bf5e5259.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-41d25e69.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-fb5169d9.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-1dba1bc2.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c4482425.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-a1dc56af.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-20c48c4e.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-3603e9b2.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-31b09f96.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-bf5e5259.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-41d25e69.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-fb5169d9.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-1dba1bc2.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c4482425.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-a1dc56af.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-20c48c4e.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-3603e9b2.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-31b09f96.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-bf5e5259.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-41d25e69.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-fb5169d9.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-1dba1bc2.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c4482425.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-a1dc56af.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-20c48c4e.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-3603e9b2.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-31b09f96.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-bf5e5259.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-41d25e69.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-fb5169d9.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-1dba1bc2.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c4482425.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-a1dc56af.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-20c48c4e.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-3603e9b2.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-31b09f96.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-bf5e5259.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-41d25e69.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-fb5169d9.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-1dba1bc2.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c4482425.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-a1dc56af.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-20c48c4e.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-3603e9b2.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-31b09f96.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-bf5e5259.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-41d25e69.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-fb5169d9.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-1dba1bc2.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-c4482425.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-a1dc56af.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-20c48c4e.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-3603e9b2.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-31b09f96.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-bf5e5259.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-41d25e69.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/roboto-fb5169d9.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"100","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-83dfed57.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"100","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f7c1acf8.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"100","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f5125d80.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"100","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-7335a6ac.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"100","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-a3e20834.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"100","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-ecf35e38.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"100","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-09b550e6.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"200","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-83dfed57.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"200","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f7c1acf8.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"200","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f5125d80.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"200","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-7335a6ac.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"200","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-a3e20834.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"200","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-ecf35e38.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"200","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-09b550e6.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"300","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-83dfed57.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"300","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f7c1acf8.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"300","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f5125d80.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"300","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-7335a6ac.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"300","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-a3e20834.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"300","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-ecf35e38.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"300","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-09b550e6.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"400","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-83dfed57.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"400","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f7c1acf8.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"400","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f5125d80.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"400","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-7335a6ac.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"400","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-a3e20834.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"400","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-ecf35e38.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"400","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-09b550e6.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"500","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-83dfed57.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"500","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f7c1acf8.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"500","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f5125d80.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"500","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-7335a6ac.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"500","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-a3e20834.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"500","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-ecf35e38.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"500","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-09b550e6.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"600","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-83dfed57.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"600","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f7c1acf8.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"600","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f5125d80.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"600","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-7335a6ac.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"600","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-a3e20834.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"600","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-ecf35e38.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"600","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-09b550e6.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"700","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-83dfed57.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"700","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f7c1acf8.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"700","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f5125d80.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"700","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-7335a6ac.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"700","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-a3e20834.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"700","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-ecf35e38.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"700","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-09b550e6.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"800","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-83dfed57.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"800","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f7c1acf8.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"800","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f5125d80.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"800","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-7335a6ac.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"800","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-a3e20834.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"800","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-ecf35e38.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"800","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-09b550e6.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"900","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-83dfed57.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"900","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f7c1acf8.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"900","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-f5125d80.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"900","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-7335a6ac.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"900","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-a3e20834.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"900","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-ecf35e38.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  /* @FONTWARNING[{"type":"restricted","family":"Roboto Slab","weight":"900","style":"normal","allowsCrossOrigin":false}] */
+  font-family: 'Roboto Slab';
+  src: url("http://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/robotoslab-09b550e6.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-ae447c40.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-1ba77177.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-a18f02d9.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-96dcdbfb.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-a2613ad4.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-4eaf914b.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-95d1147c.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-a0278d24.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-b8912fb3.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-df84a55e.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-d9ab13ac.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-32322fa1.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-3812580e.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-0c1a9fee.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-1b4e48a2.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-e98eda6d.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-4702519f.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-6a247629.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-09f830f7.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-2f0e6353.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-830a0ca7.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-b2445b9c.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-a37a8ffc.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-a3de22ad.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-4667070e.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-0e5be173.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-07bd83c6.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-8e5b20a6.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-8d45c5f8.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-ba429409.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-900db850.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-22c4c07f.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-6a4ef3ad.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-0596432c.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-01952428.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-4348c405.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-08a9d090.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-25f6a6d7.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-e215b6a9.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-19faf36e.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-1185dc6d.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-ae4d1a33.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-e84726c3.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-db01bbbc.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-95fdc599.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-7be2a916.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-ceb23af3.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-3a2ac464.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-47a7ff50.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-9fb917c7.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-7623a425.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-12db5a4d.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-2ce32018.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("https://new.moti.com.al/wp-content/uploads/elementor/google-fonts/fonts/poppins-2bf19588.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* Moti.com.al — Enterprise Weather Platform */
+
+/* ─── Light-mode overrides (html without .dark) ─────────────────────────── */
+html:not(.dark) {
+  --moti-bg: #F0F4FA;
+  --moti-bg-card: #FFFFFF;
+  --moti-bg-card-hover: #F8FAFC;
+  --moti-text: #0F172A;
+  --moti-text-muted: #475569;
+  --moti-border: rgba(15,23,42,0.10);
+  --moti-header-bg: rgba(255,255,255,0.92);
+}
+
+html:not(.dark) body {
+  background-color: var(--moti-bg);
+  color: var(--moti-text);
+}
+
+/* Light-mode: header surface */
+html:not(.dark) header[role="banner"] {
+  background-color: var(--moti-header-bg) !important;
+  border-bottom-color: rgba(15,23,42,0.08) !important;
+}
+html:not(.dark) header[role="banner"] * {
+  --tw-text-opacity: 1;
+}
+
+/* Light-mode: all moti-navy-mid / moti-navy-dark cards → white */
+html:not(.dark) .bg-moti-navy-mid,
+html:not(.dark) .bg-moti-navy-dark,
+html:not(.dark) .bg-moti-navy {
+  background-color: var(--moti-bg-card) !important;
+}
+
+/* Light-mode: glass backgrounds */
+html:not(.dark) [class*="bg-white/"] {
+  background-color: rgba(15,23,42,0.04) !important;
+}
+
+/* Light-mode: borders */
+html:not(.dark) [class*="border-white/"] {
+  border-color: var(--moti-border) !important;
+}
+
+/* Light-mode: text colours */
+html:not(.dark) .text-white {
+  color: var(--moti-text) !important;
+}
+html:not(.dark) .text-white\/60,
+html:not(.dark) .text-white\/65,
+html:not(.dark) .text-white\/70,
+html:not(.dark) .text-white\/80 {
+  color: var(--moti-text-muted) !important;
+}
+html:not(.dark) .text-white\/40,
+html:not(.dark) .text-white\/45,
+html:not(.dark) .text-white\/50,
+html:not(.dark) .text-white\/30 {
+  color: rgba(71,85,105,0.75) !important;
+}
+
+/* Light-mode: MobileNav bottom bar */
+html:not(.dark) nav[aria-label="Navigimi i poshtëm"] {
+  background-color: rgba(255,255,255,0.95) !important;
+  border-top-color: rgba(15,23,42,0.08) !important;
+}
+
+/* Light-mode: footer */
+html:not(.dark) footer {
+  background-color: #1E293B !important;
+}
+
+/* scrollbar hide utility */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* safe area for iOS bottom nav */
+.safe-area-inset-bottom { padding-bottom: env(safe-area-inset-bottom, 8px); }
+
+@tailwind base;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+
+    --card: transparent;
+    --card-foreground: 222.2 47.4% 11.2%;
+
+    --primary: 214 84% 56%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 215 25% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --accent: 215 25% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 215 20.2% 65.1%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --popover: 224 71% 4%;
+    --popover-foreground: 215 20.2% 65.1%;
+
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+
+    --card: transparent;
+    --card-foreground: 213 31% 91%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 1.2%;
+
+    --secondary: 222.2 47.4% 11.2%;
+    --secondary-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 216 34% 17%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
