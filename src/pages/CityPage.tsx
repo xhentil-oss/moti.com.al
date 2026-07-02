@@ -174,7 +174,36 @@ export const CityPage: React.FC = () => {
   const [weather, setWeather] = useState<LocationWeather | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const city = id ? getCityById(id) : undefined;
+  // Qyteti nga lista statike (i shpejtë) ose, po s'u gjet, nga DB përmes API-t.
+  const staticCity = id ? getCityById(id) : undefined;
+  const [dbCity, setDbCity] = useState<ReturnType<typeof getCityById>>(undefined);
+  const [resolving, setResolving] = useState<boolean>(!staticCity && !!id);
+  const city = staticCity || dbCity;
+
+  useEffect(() => {
+    if (staticCity || !id) {
+      setResolving(false);
+      return;
+    }
+    let cancelled = false;
+    setResolving(true);
+    setDbCity(undefined);
+    const API_BASE = (import.meta as any).env?.VITE_API_BASE || "/api";
+    fetch(`${API_BASE}/locations/${encodeURIComponent(id)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((loc) => {
+        if (!cancelled) {
+          setDbCity(loc || undefined);
+          setResolving(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setResolving(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [id, staticCity]);
 
   // SEO per-faqe (titull, meta, canonical, OG, JSON-LD)
   useSeo(
@@ -221,14 +250,21 @@ export const CityPage: React.FC = () => {
       }
     })();
     return () => { cancelled = true; };
-  }, [id]);
+  }, [city]);
 
   if (!city) {
+    if (resolving) {
+      return (
+        <div className="min-h-screen flex items-center justify-center text-white/60 text-sm">
+          Duke ngarkuar vendbanimin…
+        </div>
+      );
+    }
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-center px-4">
         <AlertCircle className="w-12 h-12 text-red-400" />
         <h1 className="text-2xl font-display font-bold text-white">Qyteti nuk u gjet</h1>
-        <p className="text-white/60">Vendbanimi që kërkuat nuk ekziston në bazën tonë të të dhënave.</p>
+        <p className="text-white/70">Vendbanimi që kërkuat nuk ekziston në bazën tonë të të dhënave.</p>
         <Link to="/" className="mt-2 px-5 py-2.5 rounded-xl bg-moti-sky text-white font-semibold text-sm hover:bg-moti-sky-light transition-colors">
           Kthehu në kryefaqe
         </Link>

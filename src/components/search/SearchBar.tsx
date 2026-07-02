@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, useId } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search, X, MapPin, Clock, TrendingUp } from "lucide-react";
 import type { SearchResult } from "../../types/weather";
 import { useSearchLocations, usePopularCities } from "../../lib/albanianCities";
@@ -23,6 +24,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const listboxId = useId();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (autoFocus && inputRef.current) inputRef.current.focus();
@@ -54,8 +56,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       setIsOpen(false);
       setResults([]);
       onSelect(location);
+      // Navigo te faqja e qytetit (dedikuar, e ndashme, SEO)
+      navigate(`/vendbanim/${location.id}`);
     },
-    [onSelect],
+    [onSelect, navigate],
   );
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
