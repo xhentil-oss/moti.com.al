@@ -28,9 +28,12 @@
   RewriteRule ^ index.html [L]
 </IfModule>
 
-# Cache i gjatë për asetet me hash në emër
+# Cache i gjatë për asetet me hash në emër; HTML gjithmonë i freskët (revalidohet)
 <IfModule mod_headers.c>
   <FilesMatch "\.(js|css|woff2?|svg|png|jpg|jpeg|gif|webp)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
 </IfModule>
