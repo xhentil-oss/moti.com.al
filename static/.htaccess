@@ -9,6 +9,11 @@
   # Mos prek API-n
   RewriteRule ^api(/|$) - [L]
 
+  # Asetet që NUK ekzistojnë → 404 (mos i ço te index.html).
+  # Parandalon "helmimin" e cache-it (JS që kthen HTML) dhe MIME-error pas deploy-it.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^assets/ - [R=404,L]
+
   # SEO: faqet e vjetra të fshatrave me ID koordinatash (p.sh. /vendbanim/ralnik-46-781830/)
   # ridrejto me 301 te lista e vendbanimeve. Prek vetëm ID me grupe numrash me vizë,
   # NUK prek slug-et e reja (/vendbanim/tirana) as faqet ditore (/vendbanim/tirana/dita/...).
