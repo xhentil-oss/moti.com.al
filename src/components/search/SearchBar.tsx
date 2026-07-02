@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback, useId } from "react";
 import { Search, X, MapPin, Clock, TrendingUp } from "lucide-react";
 import type { SearchResult } from "../../types/weather";
 import { useSearchLocations, usePopularCities } from "../../lib/albanianCities";
@@ -22,6 +22,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const [activeIdx, setActiveIdx] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const listboxId = useId();
 
   useEffect(() => {
     if (autoFocus && inputRef.current) inputRef.current.focus();
@@ -126,9 +127,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
+          role="combobox"
           aria-label="Kërko qytetin"
           aria-autocomplete="list"
           aria-expanded={showDropdown}
+          aria-controls={showDropdown ? listboxId : undefined}
           autoComplete="off"
           className="flex-1 bg-transparent text-white placeholder-white/35 text-sm outline-none font-medium"
         />
@@ -150,6 +153,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       {showDropdown && (
         <div
           ref={dropdownRef}
+          id={listboxId}
           role="listbox"
           aria-label="Rezultatet e kërkimit"
           className="absolute top-full mt-2 left-0 right-0 z-50 rounded-2xl border border-white/[0.10] bg-moti-navy-dark/95 backdrop-blur-xl shadow-premium overflow-hidden animate-slide-down"
