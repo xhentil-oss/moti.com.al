@@ -1,0 +1,31 @@
+# SPA routing për moti.com.al (React Router)
+# Kërkesat /api i lëmë të paprekura (Passenger / Node app i menaxhon).
+# Skedarët/dosjet reale shërbehen direkt; gjithçka tjetër → index.html.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Mos prek API-n
+  RewriteRule ^api(/|$) - [L]
+
+  # SEO: faqet e vjetra të fshatrave me ID koordinatash (p.sh. /vendbanim/ralnik-46-781830/)
+  # ridrejto me 301 te lista e vendbanimeve. Prek vetëm ID me grupe numrash me vizë,
+  # NUK prek slug-et e reja (/vendbanim/tirana) as faqet ditore (/vendbanim/tirana/dita/...).
+  RewriteRule ^vendbanim/[^/]*-[0-9]+-[0-9].*$ /vendbanimet [R=301,L]
+
+  # Nëse skedari ose dosja ekziston, shërbeje ashtu siç është
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Ndryshe, ktheji te index.html (SPA fallback)
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Cache i gjatë për asetet me hash në emër
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|woff2?|svg|png|jpg|jpeg|gif|webp)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>

@@ -1,0 +1,13 @@
+---
+deployment:
+  tasks:
+    # Kopjon frontend-in e ndërtuar (dist/) te public_html dhe rinis backend-in.
+    # Ekzekutohet nga cPanel Git → "Deploy HEAD Commit".
+    - export DEPLOYPATH=/home/moti/public_html
+    - export APPROOT=/home/moti/repositories/moti.com.al/server
+    # Pastro asetet e vjetra me hash, pastaj kopjo build-in e ri (përfshi .htaccess, robots.txt)
+    - /bin/rm -rf $DEPLOYPATH/assets
+    - /bin/cp -R dist/. $DEPLOYPATH/
+    # Rinis aplikacionin Node (Passenger)
+    - /bin/mkdir -p $APPROOT/tmp
+    - /bin/touch $APPROOT/tmp/restart.txt
