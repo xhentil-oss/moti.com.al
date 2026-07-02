@@ -549,8 +549,8 @@ export function getCityById(id: string): SearchResult | undefined {
 // Kur keni 10,000+ lokacione, shtoni ato në Location entity dhe
 // këto hooks do punojnë automatikisht pa ndryshuar kodin.
 
-import { useLazyQuery, useQuery } from "@animaapp/playground-react-sdk";
-import type { Location } from "@animaapp/playground-react-sdk";
+import { useLazyQuery, useQuery } from "./anima";
+import type { Location } from "./anima";
 
 /**
  * Kërkon lokacione nga databaza — supports 10,000+ records.

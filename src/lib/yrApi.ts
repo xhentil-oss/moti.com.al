@@ -31,6 +31,10 @@ import { getWeatherSymbol } from "./weatherSymbols";
  */
 const MET_BASE = "https://api.met.no/weatherapi/locationforecast/2.0/compact";
 
+// Backend ynë (Nginx same-origin në prod → "/api"). Proxy-t publike përdoren
+// vetëm si fallback nëse backend-i s'është i disponueshëm.
+const API_BASE: string = (import.meta as any).env?.VITE_API_BASE || "/api";
+
 // ─── Multi-proxy fallback chain ──────────────────────────────────────────────
 // Each proxy returns JSON differently; we normalise them below.
 
@@ -119,9 +123,19 @@ export async function fetchYrForecast(lat: number, lon: number): Promise<YrForec
 
   const metUrl = `${MET_BASE}?lat=${latStr}&lon=${lonStr}`;
 
-  console.log(`[Moti] Fetching real weather for ${key} via proxy chain…`);
-  const result = await fetchViaProxies(metUrl);
-  const data: YrForecastResponse = JSON.parse(result.contents);
+  // 1) Primar: backend-i ynë proxy (User-Agent i saktë, pa CORS-proxy publike)
+  let data: YrForecastResponse;
+  try {
+    const res = await fetch(`${API_BASE}/weather?lat=${latStr}&lon=${lonStr}`);
+    if (!res.ok) throw new Error(`backend ${res.status}`);
+    data = (await res.json()) as YrForecastResponse;
+    console.log(`[Moti] ✅ Weather via backend for ${key}`);
+  } catch (backendErr) {
+    // 2) Fallback: zinxhiri i proxy-ve publike (p.sh. në Sandpack pa backend)
+    console.warn(`[Moti] Backend proxy dështoi, po provoj proxy publike:`, backendErr);
+    const result = await fetchViaProxies(metUrl);
+    data = JSON.parse(result.contents);
+  }
   console.log(`[Moti] ✅ Real data received for ${key}, temp=${data.properties.timeseries[0]?.data.instant.details.air_temperature}°C`);
 
   const expiresAt = Date.now() + 30 * 60 * 1000; // 30-min TTL (allorigins strips headers)

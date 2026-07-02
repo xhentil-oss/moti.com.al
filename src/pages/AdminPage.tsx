@@ -7,13 +7,10 @@ import {
   Sun, CloudRain, Snowflake, Cloud, CheckCircle2, XCircle, LogOut,
   Menu, X, ExternalLink, Copy, Zap, Bell, Check
 } from "lucide-react";
-import { useQuery, useMutation } from "@animaapp/playground-react-sdk";
-import type { Location } from "@animaapp/playground-react-sdk";
+import { useQuery, useMutation, login as apiLogin, clearToken, isAuthenticated } from "../lib/anima";
+import type { Location } from "../lib/anima";
 import { ALBANIAN_CITIES, POPULAR_CITIES } from "../lib/albanianCities";
 import type { SearchResult } from "../types/weather";
-
-// ─── Auth Gate ────────────────────────────────────────────────────────────────
-const ADMIN_PASSWORD = "moti2024admin";
 
 // ─── Toast System ─────────────────────────────────────────────────────────────
 type ToastType = "success" | "error" | "info";
@@ -90,11 +87,10 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
 
   const attempt = async () => {
     setLoading(true);
-    await new Promise(r => setTimeout(r, 400));
-    if (pw === ADMIN_PASSWORD) {
-      sessionStorage.setItem("moti-admin-auth", "1");
+    try {
+      await apiLogin(pw);
       onLogin();
-    } else {
+    } catch {
       setErr(true);
       setShake(true);
       setTimeout(() => setShake(false), 500);
@@ -2413,13 +2409,13 @@ function Sidebar({ tab, setTab, logout, mobileOpen, setMobileOpen }: {
 // ─── Main Admin Page ──────────────────────────────────────────────────────────
 export function AdminPage() {
   const navigate = useNavigate();
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem("moti-admin-auth") === "1");
+  const [authed, setAuthed] = useState(() => isAuthenticated());
   const [tab, setTab] = useState<TabId>("overview");
   const [mobileOpen, setMobileOpen] = useState(false);
   const { toasts, add: addToast, remove } = useToast();
 
   const logout = () => {
-    sessionStorage.removeItem("moti-admin-auth");
+    clearToken();
     setAuthed(false);
   };
 

@@ -1,0 +1,31 @@
+# /etc/systemd/system/moti-server.service
+# Menaxhon backend-in Node si shërbim. Komandat:
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now moti-server
+#   sudo systemctl status moti-server
+#   sudo journalctl -u moti-server -f      # logjet live
+
+[Unit]
+Description=Moti.com.al API server (Node/Express + MariaDB)
+After=network.target mariadb.service
+Wants=mariadb.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/moti.com.al/server
+# .env lexohet nga dotenv brenda aplikacionit; e mban jashtë git-it
+EnvironmentFile=/var/www/moti.com.al/server/.env
+ExecStart=/usr/bin/node src/index.js
+Restart=on-failure
+RestartSec=3
+# Fort-ësim bazë sigurie
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/www/moti.com.al/server
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
