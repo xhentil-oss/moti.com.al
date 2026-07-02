@@ -7,7 +7,9 @@ import path from "path";
 export default defineConfig({
   plugins: [react()],
   publicDir: "./static",
-  base: "./",
+  // Rrugë absolute — faqja shërbehet nga rrënja e domain-it (moti.com.al).
+  // Me "./" (relative), asetet prishen te rrugët me disa segmente pas SPA-fallback.
+  base: "/",
   css: {
     postcss: {
       plugins: [tailwind()],
