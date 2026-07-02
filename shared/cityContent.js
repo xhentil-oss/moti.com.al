@@ -6,6 +6,21 @@
  * ESM i thjeshtë (pa tipe) që ta importojnë të dyja rrugët.
  */
 
+/** Slug pa diakritikë (Tiranë → tirane, Korçë → korce). */
+export function slugify(s) {
+  return String(s || "")
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/** Përshkrim unik për një faqe rajoni. */
+export function regionDescription(region, country, count) {
+  return `Rajoni i ${region} (${countryLabel(country)}) përfshin ${count} vendbanime me parashikim moti. Shiko motin live orë-pas-ore dhe 10-ditor për çdo qytet e fshat të rajonit — temperatura, reshjet, era dhe lagështia, nga MET/Yr.`;
+}
+
 export function countryLabel(c) {
   return c === "Albania"
     ? "Shqipëri"

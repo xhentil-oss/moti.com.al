@@ -15,7 +15,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { execFileSync } from "node:child_process";
-import { countryLabel, longDescription, faqs, climateType, bestTime } from "./shared/cityContent.js";
+import { countryLabel, longDescription, faqs, climateType, bestTime, slugify, regionDescription } from "./shared/cityContent.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST = join(__dirname, "dist");
@@ -242,6 +242,70 @@ for (const city of cities) {
   html = injectBody(html, body);
   write("vendbanimet.html", html);
   count++;
+}
+
+// ─── Faqet e rajoneve (nga seed-i statik, si RegionPage në React) ────────────
+{
+  const seedCities = loadSeed();
+  const byRegion = new Map();
+  for (const c of seedCities) {
+    const slug = slugify(c.region);
+    if (!byRegion.has(slug)) byRegion.set(slug, { region: c.region, country: c.country, list: [] });
+    byRegion.get(slug).list.push(c);
+  }
+  for (const [slug, { region, country, list }] of byRegion) {
+    list.sort((a, b) => (b.population || 0) - (a.population || 0));
+    const canonical = `${SITE}/rajoni/${slug}`;
+    const body = `
+      <nav aria-label="Shtegu" style="font-size:13px;opacity:.7;margin-bottom:14px"><a href="/" style="color:#7fb4f5">Kryefaqja</a> › <a href="/vendbanimet" style="color:#7fb4f5">Vendbanimet</a> › <span>${esc(region)}</span></nav>
+      <h1 style="font-size:28px;font-weight:800;margin:0 0 10px">Moti në rajonin e ${esc(region)}</h1>
+      <p style="opacity:.85;line-height:1.6;max-width:72ch">${esc(regionDescription(region, country, list.length))}</p>
+      <h2 style="font-size:20px;font-weight:700;margin:22px 0 8px">Qytetet dhe fshatrat e rajonit</h2>
+      <p>${list.map((c) => `<a href="/vendbanim/${esc(c.id)}" style="color:#7fb4f5;margin-right:14px;display:inline-block">${esc(c.nameAl)}</a>`).join("")}</p>
+    `;
+    let html = setHead(template, {
+      title: `Moti në rajonin e ${region} — parashikimi për qytetet | Moti.com.al`,
+      description: regionDescription(region, country, list.length),
+      canonical,
+      ogType: "website",
+    });
+    html = injectJsonLd(html, [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Kryefaqja", item: `${SITE}/` },
+          { "@type": "ListItem", position: 2, name: "Vendbanimet", item: `${SITE}/vendbanimet` },
+          { "@type": "ListItem", position: 3, name: region, item: canonical },
+        ],
+      },
+    ]);
+    html = injectBody(html, body);
+    write(`rajoni/${slug}.html`, html);
+    count++;
+  }
+}
+
+// ─── Faqet e besimit (Rreth nesh, Kontakt, Privatësia, Kushtet) ──────────────
+{
+  const infoPages = [
+    { path: "rreth-nesh", title: "Rreth nesh — Moti.com.al", h1: "Rreth Moti.com.al", desc: "Moti.com.al është platforma e parashikimit të motit për Shqipëri, Kosovë dhe Maqedoni, me të dhëna live nga MET/Yr.", p: "Moti.com.al ofron parashikime të sakta për çdo qytet e fshat në Shqipëri, Kosovë dhe Maqedoni. Të dhënat bazohen mbi MET Norway (Yr), një nga burimet më të besueshme në botë — temperatura, reshjet, era, lagështia, presioni dhe UV, orë-pas-ore dhe deri në 10 ditë." },
+    { path: "kontakt", title: "Kontakt — Moti.com.al", h1: "Na kontaktoni", desc: "Kontaktoni ekipin e Moti.com.al për pyetje, sugjerime ose bashkëpunime.", p: "Për çdo pyetje, sugjerim ose bashkëpunim, na shkruani në info@moti.com.al. Vlerësojmë çdo koment që na ndihmon ta përmirësojmë shërbimin." },
+    { path: "privatesia", title: "Politika e privatësisë — Moti.com.al", h1: "Politika e privatësisë", desc: "Si i trajton Moti.com.al të dhënat dhe privatësinë e përdoruesve.", p: "Moti.com.al respekton privatësinë tuaj. Faqja nuk kërkon regjistrim dhe nuk mbledh të dhëna personale identifikuese. Vendndodhja (nëse e lejoni) përdoret vetëm për të shfaqur motin e zonës dhe nuk ruhet në serverët tanë." },
+    { path: "kushtet", title: "Kushtet e përdorimit — Moti.com.al", h1: "Kushtet e përdorimit", desc: "Kushtet e përdorimit të shërbimit Moti.com.al.", p: "Duke përdorur Moti.com.al ju pranoni këto kushte. Parashikimet janë informative dhe mund të ndryshojnë; për vendime kritike konsultoni burimet zyrtare meteorologjike. Të dhënat vijnë nga MET Norway (Yr)." },
+  ];
+  for (const info of infoPages) {
+    const canonical = `${SITE}/${info.path}`;
+    let html = setHead(template, { title: info.title, description: info.desc, canonical, ogType: "website" });
+    const body = `
+      <nav aria-label="Shtegu" style="font-size:13px;opacity:.7;margin-bottom:14px"><a href="/" style="color:#7fb4f5">Kryefaqja</a> › <span>${esc(info.h1)}</span></nav>
+      <h1 style="font-size:28px;font-weight:800;margin:0 0 12px">${esc(info.h1)}</h1>
+      <p style="opacity:.85;line-height:1.6;max-width:72ch">${esc(info.p)}</p>
+    `;
+    html = injectBody(html, body);
+    write(`${info.path}.html`, html);
+    count++;
+  }
 }
 
 // ─── Kryefaqja (përmbajtje e lexueshme + linqe të brendshme) ─────────────────

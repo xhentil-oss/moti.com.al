@@ -2,12 +2,12 @@ import React from "react";
 import { Mail, Facebook, Instagram, Twitter, MapPin, ExternalLink } from "lucide-react";
 
 const FOOTER_LINKS = {
-  parashikime: [
-    { label: "Sot", href: "/sot" },
-    { label: "Orë për orë", href: "/ore-per-ore" },
-    { label: "10 Ditë", href: "/10-dite" },
-    { label: "Fundjavë", href: "/fundJave" },
-    { label: "Harta e motit", href: "/harta" },
+  rajonet: [
+    { label: "Rajoni i Tiranës", href: "/rajoni/tirane" },
+    { label: "Rajoni i Durrësit", href: "/rajoni/durres" },
+    { label: "Rajoni i Vlorës", href: "/rajoni/vlore" },
+    { label: "Rajoni i Shkodrës", href: "/rajoni/shkoder" },
+    { label: "Rajoni i Korçës", href: "/rajoni/korce" },
   ],
   qytetet: [
     { label: "Tiranë", href: "/vendbanim/tirana" },
@@ -18,10 +18,9 @@ const FOOTER_LINKS = {
   ],
   kompania: [
     { label: "Rreth nesh", href: "/rreth-nesh" },
-    { label: "Blog", href: "/blog" },
+    { label: "Kontakt", href: "/kontakt" },
     { label: "Politika e privatësisë", href: "/privatesia" },
     { label: "Kushtet e përdorimit", href: "/kushtet" },
-    { label: "Kontakt", href: "/kontakt" },
   ],
 };
 
@@ -77,7 +76,7 @@ export const Footer: React.FC = () => {
 
           {/* Link columns */}
           {[
-            { title: "Parashikime", links: FOOTER_LINKS.parashikime },
+            { title: "Rajonet", links: FOOTER_LINKS.rajonet },
             { title: "Qytetet kryesore", links: FOOTER_LINKS.qytetet },
             { title: "Kompania", links: FOOTER_LINKS.kompania },
           ].map(({ title, links }) => (
