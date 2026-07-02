@@ -6,6 +6,7 @@ import { ping } from "./db.js";
 import { authRouter } from "./routes/auth.js";
 import { locationsRouter } from "./routes/locations.js";
 import { weatherRouter } from "./routes/weather.js";
+import { seoRouter } from "./routes/seo.js";
 
 const app = express();
 app.set("trust proxy", 1); // pas Nginx-it — që rate-limit të lexojë IP-në reale
@@ -41,7 +42,8 @@ api.get("/health", async (_req, res) => {
 
 api.use("/auth", authRouter);
 api.use("/locations", locationsRouter);
-api.use("/", weatherRouter); // /weather, /metalerts
+api.use("/", weatherRouter); // /weather, /metalerts, /overpass, /geocode
+api.use("/", seoRouter); // /sitemap.xml
 
 app.use("/api", api);
 app.use("/", api);

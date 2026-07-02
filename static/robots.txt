@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Allow: /api/sitemap.xml
+
+Sitemap: https://moti.com.al/api/sitemap.xml
