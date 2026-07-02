@@ -12,6 +12,7 @@ import { WeatherCardSkeleton, HourlyCardSkeleton } from "../components/ui/Skelet
 import { useWeather } from "../context/WeatherContext";
 import { WeatherScene } from "../components/WeatherScene";
 import { useSeo } from "../lib/seo";
+import { longDescription, faqs as cityFaqs, bestTime, climateType } from "../../shared/cityContent.js";
 import type { LocationWeather, LocationInfo } from "../types/weather";
 
 // ─── JSON-LD helpers ──────────────────────────────────────────────────────────
@@ -107,7 +108,7 @@ function CitySEOBlock({ city }: { city: NonNullable<ReturnType<typeof getCityByI
     gjirokaster: "Gjirokastra është qytet-muze i listuar si Trashëgimi Botërore e UNESCO-s. Gjendet në lartësi malore me klimë kontinentale mesdhetare.",
     pristina: "Prishtina është kryeqyteti i Kosovës, me klimë kontinentale. Verët janë të nxehta dhe dimrat të ftohtë me dëborë të mundshme.",
   };
-  const description = regionInfo[city.id] || `${city.nameAl} ndodhet në rajonin ${city.region} të ${countryLabel}. Moti i zonës ndikohet nga pozicioni gjeografik dhe relievja e vendit.`;
+  const description = regionInfo[city.id] || longDescription(city);
 
   return (
     <section aria-labelledby="city-seo-title" className="rounded-2xl bg-moti-navy-mid border border-white/[0.07] p-5 md:p-6 shadow-card mt-5">
@@ -125,6 +126,10 @@ function CitySEOBlock({ city }: { city: NonNullable<ReturnType<typeof getCityByI
           <span className="text-white/70">{countryLabel}</span>
         </div>
         <div className="flex items-start gap-2">
+          <span className="text-moti-sky font-semibold min-w-[80px]">Klima:</span>
+          <span className="text-white/70">{climateType(city)}</span>
+        </div>
+        <div className="flex items-start gap-2">
           <span className="text-moti-sky font-semibold min-w-[80px]">Gjerësia:</span>
           <span className="text-white/70">{city.lat.toFixed(4)}° V</span>
         </div>
@@ -140,36 +145,21 @@ function CitySEOBlock({ city }: { city: NonNullable<ReturnType<typeof getCityByI
         )}
       </div>
 
-      {/* FAQ */}
+      {/* Kur të vizitosh */}
+      <p className="text-white/60 text-sm leading-relaxed mt-4">{bestTime(city)}</p>
+
+      {/* FAQ (unike per qytet nga gjeografia) */}
       <div className="mt-5 space-y-3">
         <h3 className="text-base font-semibold text-white/80">Pyetje të shpeshta</h3>
-        <details className="group rounded-xl border border-white/[0.06] p-3 cursor-pointer">
-          <summary className="text-sm font-medium text-white/70 group-open:text-white list-none flex items-center justify-between">
-            Sa është temperatura mesatare verore në {city.nameAl}?
-            <ChevronRight className="w-3.5 h-3.5 transition-transform group-open:rotate-90 flex-shrink-0 ml-2" />
-          </summary>
-          <p className="text-sm text-white/55 mt-2 leading-relaxed">
-            Temperatura mesatare gjatë verës (qershor–gusht) në {city.nameAl} luhatet ndërmjet 24°C dhe 35°C, me kulmet e nxehtësisë duke arritur mbi 38°C gjatë valëve të nxehtit.
-          </p>
-        </details>
-        <details className="group rounded-xl border border-white/[0.06] p-3 cursor-pointer">
-          <summary className="text-sm font-medium text-white/70 group-open:text-white list-none flex items-center justify-between">
-            Kur është moti më i mirë për të vizituar {city.nameAl}?
-            <ChevronRight className="w-3.5 h-3.5 transition-transform group-open:rotate-90 flex-shrink-0 ml-2" />
-          </summary>
-          <p className="text-sm text-white/55 mt-2 leading-relaxed">
-            Periudha ideale për të vizituar {city.nameAl} është nga maji deri në shtator. Moti është i qëndrueshëm, me shumë diell dhe temperatura të këndshme.
-          </p>
-        </details>
-        <details className="group rounded-xl border border-white/[0.06] p-3 cursor-pointer">
-          <summary className="text-sm font-medium text-white/70 group-open:text-white list-none flex items-center justify-between">
-            Sa reshje ka {city.nameAl} gjatë vitit?
-            <ChevronRight className="w-3.5 h-3.5 transition-transform group-open:rotate-90 flex-shrink-0 ml-2" />
-          </summary>
-          <p className="text-sm text-white/55 mt-2 leading-relaxed">
-            {city.nameAl} merr mesatarisht 700–1200 mm reshje në vit, me shumicën e tyre gjatë muajve të dimrit (nëntor–mars). Vera zakonisht është e thatë.
-          </p>
-        </details>
+        {cityFaqs(city).map((f, i) => (
+          <details key={i} className="group rounded-xl border border-white/[0.06] p-3 cursor-pointer">
+            <summary className="text-sm font-medium text-white/70 group-open:text-white list-none flex items-center justify-between">
+              {f.q}
+              <ChevronRight className="w-3.5 h-3.5 transition-transform group-open:rotate-90 flex-shrink-0 ml-2" />
+            </summary>
+            <p className="text-sm text-white/55 mt-2 leading-relaxed">{f.a}</p>
+          </details>
+        ))}
       </div>
     </section>
   );

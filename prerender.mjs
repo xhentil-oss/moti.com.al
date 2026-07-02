@@ -1,31 +1,66 @@
 /**
  * Prerender / SSG për moti.com.al
  *
- * Ekzekutohet PAS `vite build`. Për çdo qytet gjeneron një HTML statik
+ * Ekzekutohet PAS `vite build`. Për çdo vendbanim gjeneron një HTML statik
  * (dist/vendbanim/<id>.html) me titull/meta/canonical/OG/JSON-LD dhe përmbajtje
- * të lexueshme nga crawler-at brenda HTML-it fillestar. JS-i ende ngarkohet dhe
- * e zëvendëson përmbajtjen me aplikacionin interaktiv (moti live) pas montimit.
+ * UNIKE të lexueshme nga crawler-at. JS-i ende ngarkohet dhe e zëvendëson me
+ * aplikacionin interaktiv (moti live) pas montimit.
  *
- * Burimi i qyteteve: server/seed/locations.json (437 qytetet kryesore).
+ * Burimi i vendbanimeve:
+ *   1) DB live përmes API (default) → mbulon çdo location të shtuar nga admin
+ *   2) fallback: server/seed/locations.json (437 kryesoret) nëse API s'arrihet
+ *   Kontroll: PRERENDER_SOURCE=seed  ose  PRERENDER_API=<url>
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { execFileSync } from "node:child_process";
+import { countryLabel, longDescription, faqs, climateType, bestTime } from "./shared/cityContent.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST = join(__dirname, "dist");
 const SEED = join(__dirname, "server", "seed", "locations.json");
 const SITE = "https://moti.com.al";
+const API = process.env.PRERENDER_API || `${SITE}/api/locations/query`;
 
 // ─── Burimi i të dhënave ─────────────────────────────────────────────────────
-if (!existsSync(SEED)) {
-  console.log("seed/locations.json mungon — po e gjeneroj…");
-  execFileSync(process.execPath, [join(__dirname, "server", "scripts", "build-seed.mjs")], {
-    stdio: "inherit",
-  });
+function loadSeed() {
+  if (!existsSync(SEED)) {
+    execFileSync(process.execPath, [join(__dirname, "server", "scripts", "build-seed.mjs")], { stdio: "inherit" });
+  }
+  return JSON.parse(readFileSync(SEED, "utf8"));
 }
-const cities = JSON.parse(readFileSync(SEED, "utf8"));
+
+async function loadCities() {
+  if (process.env.PRERENDER_SOURCE === "seed") return loadSeed();
+  try {
+    const res = await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orderBy: { population: "desc" }, limit: 50000 }),
+    });
+    if (res.ok) {
+      const rows = await res.json();
+      if (Array.isArray(rows) && rows.length) {
+        console.log(`Prerender nga DB (API): ${rows.length} vendbanime`);
+        return rows;
+      }
+    }
+    throw new Error(`API ktheu ${res.status}`);
+  } catch (e) {
+    console.warn(`API s'u arrit (${e.message}) — po përdor seed-in statik.`);
+    return loadSeed();
+  }
+}
+
+const allCities = await loadCities();
+
+// Para-rendero vetëm vendet me popullsi reale (cilësi mbi sasi; parandalon "thin content").
+// Fshatrat pa popullsi mbeten në sitemap + CSR — prapë të indeksueshëm.
+// Ndrysho pragun me PRERENDER_MIN_POP (0 = të gjitha).
+const MIN_POP = Number(process.env.PRERENDER_MIN_POP ?? 1000);
+const cities = allCities.filter((c) => c.isPopular || (Number(c.population) || 0) >= MIN_POP);
+console.log(`Prerender: ${cities.length} / ${allCities.length} vendbanime (prag popullsie ≥ ${MIN_POP})`);
 
 const templatePath = join(DIST, "index.html");
 if (!existsSync(templatePath)) {
@@ -38,9 +73,6 @@ const template = readFileSync(templatePath, "utf8");
 const esc = (s) =>
   String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const escAttr = (s) => String(s).replace(/"/g, "&quot;");
-
-const countryLabel = (c) =>
-  c === "Albania" ? "Shqipëri" : c === "Kosovo" ? "Kosovë" : c === "Maqedonia e Veriut" ? "Maqedoni e Veriut" : c;
 
 function setHead(html, { title, description, canonical, ogType }) {
   return html
@@ -56,9 +88,7 @@ function setHead(html, { title, description, canonical, ogType }) {
 }
 
 function injectJsonLd(html, objs) {
-  const scripts = objs
-    .map((o) => `<script type="application/ld+json">${JSON.stringify(o)}</script>`)
-    .join("\n");
+  const scripts = objs.map((o) => `<script type="application/ld+json">${JSON.stringify(o)}</script>`).join("\n");
   return html.replace("</head>", `${scripts}\n</head>`);
 }
 
@@ -75,30 +105,12 @@ function write(relPath, html) {
   writeFileSync(full, html, "utf8");
 }
 
-// ─── Përmbajtja SEO për një qytet ────────────────────────────────────────────
-function cityDescription(city) {
-  return `${city.nameAl} ndodhet në rajonin e ${city.region}, ${countryLabel(city.country)}. Këtu gjeni parashikimin e detajuar të motit: temperatura, reshjet, era, lagështia dhe indeksi UV — orë-pas-ore dhe për 10 ditë, të përditësuara nga MET/Yr.`;
-}
-
-const faqs = (city) => [
-  {
-    q: `Sa është temperatura mesatare verore në ${city.nameAl}?`,
-    a: `Temperatura mesatare gjatë verës (qershor–gusht) në ${city.nameAl} luhatet ndërmjet 24°C dhe 35°C, me kulme mbi 38°C gjatë valëve të nxehtit.`,
-  },
-  {
-    q: `Kur është moti më i mirë për të vizituar ${city.nameAl}?`,
-    a: `Periudha ideale për të vizituar ${city.nameAl} është nga maji deri në shtator, me mot të qëndrueshëm, shumë diell dhe temperatura të këndshme.`,
-  },
-  {
-    q: `Sa reshje ka ${city.nameAl} gjatë vitit?`,
-    a: `${city.nameAl} merr mesatarisht 700–1200 mm reshje në vit, kryesisht gjatë muajve nëntor–mars. Vera zakonisht është e thatë.`,
-  },
-];
-
+// ─── Trupi SEO për një qytet (përmbajtje unike nga gjeografia) ───────────────
 function cityBody(city, others) {
   const facts = [
     ["Rajoni", city.region],
     ["Shteti", countryLabel(city.country)],
+    ["Tipi i klimës", climateType(city)],
     ["Gjerësia gjeografike", `${city.lat.toFixed(4)}° V`],
     ["Gjatësia gjeografike", `${city.lon.toFixed(4)}° L`],
     ...(city.population ? [["Popullsia", `~${city.population.toLocaleString("sq-AL")} banorë`]] : []),
@@ -115,23 +127,26 @@ function cityBody(city, others) {
       <span>${esc(city.nameAl)}</span>
     </nav>
     <h1 style="font-size:28px;font-weight:800;margin:0 0 10px">Moti në ${esc(city.nameAl)} — parashikimi 10-ditor dhe orar</h1>
-    <p style="opacity:.8;line-height:1.6;max-width:70ch">${esc(cityDescription(city))}</p>
+    <p style="opacity:.85;line-height:1.6;max-width:72ch">${esc(longDescription(city))}</p>
     <p style="opacity:.6;margin-top:10px">⏳ Duke ngarkuar motin live nga MET/Yr…</p>
 
-    <h2 style="font-size:20px;font-weight:700;margin:24px 0 10px">Të dhëna për ${esc(city.nameAl)}</h2>
+    <h2 style="font-size:20px;font-weight:700;margin:24px 0 10px">Të dhëna klimatike për ${esc(city.nameAl)}</h2>
     <ul style="list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px">
       ${facts.map(([k, v]) => `<li style="background:#132843;padding:10px 12px;border-radius:10px"><strong style="color:#7fb4f5">${esc(k)}:</strong> ${esc(v)}</li>`).join("")}
     </ul>
+
+    <h2 style="font-size:20px;font-weight:700;margin:24px 0 10px">Kur të vizitosh ${esc(city.nameAl)}</h2>
+    <p style="opacity:.8;line-height:1.6;max-width:72ch">${esc(bestTime(city))}</p>
 
     <h2 style="font-size:20px;font-weight:700;margin:24px 0 10px">Pyetje të shpeshta për motin në ${esc(city.nameAl)}</h2>
     ${faqs(city)
       .map(
         (f) =>
-          `<div style="background:#132843;padding:12px 14px;border-radius:10px;margin-bottom:8px"><h3 style="font-size:15px;margin:0 0 6px">${esc(f.q)}</h3><p style="opacity:.75;margin:0;line-height:1.55">${esc(f.a)}</p></div>`
+          `<div style="background:#132843;padding:12px 14px;border-radius:10px;margin-bottom:8px"><h3 style="font-size:15px;margin:0 0 6px">${esc(f.q)}</h3><p style="opacity:.78;margin:0;line-height:1.55">${esc(f.a)}</p></div>`
       )
       .join("")}
 
-    <h2 style="font-size:20px;font-weight:700;margin:24px 0 10px">Qytete të tjera</h2>
+    <h2 style="font-size:20px;font-weight:700;margin:24px 0 10px">Qytete të tjera në ${esc(city.region)} e më gjerë</h2>
     <p>${nearby.map((o) => `<a href="/vendbanim/${esc(o.id)}" style="color:#7fb4f5;margin-right:14px;display:inline-block">${esc(o.nameAl)}</a>`).join("")}</p>
   `;
 }
@@ -152,6 +167,7 @@ function cityJsonLd(city) {
       "@context": "https://schema.org",
       "@type": "Place",
       name: city.nameAl,
+      description: longDescription(city),
       url,
       geo: { "@type": "GeoCoordinates", latitude: city.lat, longitude: city.lon },
       containedInPlace: {
@@ -178,7 +194,7 @@ for (const city of cities) {
   const canonical = `${SITE}/vendbanim/${city.id}`;
   let html = setHead(template, {
     title: `Moti në ${city.nameAl} — Parashikimi 10-ditor & orar | Moti.com.al`,
-    description: `Parashikimi i motit për ${city.nameAl}, ${city.region}: temperatura, reshjet, era, orë-pas-ore dhe 10-ditor. Të dhëna live nga MET/Yr.`,
+    description: `Parashikimi i motit për ${city.nameAl}, ${city.region}: temperatura, reshjet, era, orë-pas-ore dhe 10-ditor. Klimë ${climateType(city).toLowerCase()}. Të dhëna live nga MET/Yr.`,
     canonical,
     ogType: "article",
   });
@@ -233,7 +249,7 @@ for (const city of cities) {
   const popular = cities.filter((c) => c.isPopular).slice(0, 12);
   const body = `
     <h1 style="font-size:28px;font-weight:800;margin:0 0 10px">Parashikimi i motit për Shqipëri, Kosovë &amp; Maqedoni</h1>
-    <p style="opacity:.8;max-width:70ch;line-height:1.6">Moti.com.al ofron parashikime të sakta orë-pas-ore dhe 10-ditore për çdo qytet e fshat, të përditësuara nga MET/Yr. Zgjidh vendbanimin tënd më poshtë ose kërko në krye.</p>
+    <p style="opacity:.85;max-width:72ch;line-height:1.6">Moti.com.al ofron parashikime të sakta orë-pas-ore dhe 10-ditore për çdo qytet e fshat, të përditësuara nga MET/Yr. Zgjidh vendbanimin tënd më poshtë ose kërko në krye.</p>
     <h2 style="font-size:20px;margin:22px 0 8px">Qytetet kryesore</h2>
     <p>${popular.map((c) => `<a href="/vendbanim/${esc(c.id)}" style="color:#7fb4f5;margin-right:14px;display:inline-block">${esc(c.nameAl)}</a>`).join("")}</p>
     <p style="margin-top:16px"><a href="/vendbanimet" style="color:#7fb4f5">→ Të gjitha vendbanimet</a></p>
@@ -243,4 +259,4 @@ for (const city of cities) {
   write("index.html", html);
 }
 
-console.log(`✅ Prerender: ${count} faqe statike + kryefaqja (dist/vendbanim/*.html, vendbanimet.html, index.html)`);
+console.log(`✅ Prerender: ${count} faqe statike + kryefaqja`);
