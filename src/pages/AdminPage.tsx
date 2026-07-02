@@ -12,6 +12,32 @@ import type { Location } from "../lib/anima";
 import { ALBANIAN_CITIES, POPULAR_CITIES } from "../lib/albanianCities";
 import type { SearchResult } from "../types/weather";
 
+// ─── Backend helpers (Overpass + Nominatim përmes serverit tonë, pa CORS-proxy) ─
+const API_BASE: string = (import.meta as any).env?.VITE_API_BASE || "/api";
+
+async function overpassViaBackend(query: string, signal?: AbortSignal): Promise<any> {
+  const res = await fetch(`${API_BASE}/overpass`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query }),
+    signal,
+  });
+  if (!res.ok) throw new Error(`overpass ${res.status}`);
+  return res.json();
+}
+
+async function geocodeViaBackend(
+  q: string,
+  opts?: { countrycodes?: string; limit?: number }
+): Promise<any[]> {
+  const params = new URLSearchParams({ q });
+  if (opts?.countrycodes) params.set("countrycodes", opts.countrycodes);
+  if (opts?.limit) params.set("limit", String(opts.limit));
+  const res = await fetch(`${API_BASE}/geocode?${params.toString()}`);
+  if (!res.ok) throw new Error(`geocode ${res.status}`);
+  return res.json();
+}
+
 // ─── Toast System ─────────────────────────────────────────────────────────────
 type ToastType = "success" | "error" | "info";
 interface Toast { id: number; msg: string; type: ToastType; }
@@ -794,19 +820,7 @@ function ManualAddTab({ toast }: { toast: (msg: string, type?: ToastType) => voi
     if (!form.name && !form.nameAl) return;
     setGeocoding(true);
     try {
-      const q = encodeURIComponent((form.nameAl || form.name) + ", " + form.country);
-      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${q}&limit=1&addressdetails=1`;
-      // Try direct first (Nominatim allows CORS), then proxy fallback
-      let text: string;
-      try {
-        const direct = await fetch(url, { headers: { "Accept": "application/json" } });
-        text = await direct.text();
-      } catch {
-        const wrapped = `https://corsproxy.io/?${encodeURIComponent(url)}`;
-        const res = await fetch(wrapped);
-        text = await res.text();
-      }
-      const results = JSON.parse(text);
+      const results = await geocodeViaBackend((form.nameAl || form.name) + ", " + form.country, { limit: 1 });
       if (results && results.length > 0) {
         const r = results[0];
         set("lat", parseFloat(r.lat).toFixed(5));
@@ -1045,18 +1059,7 @@ function ApiImportTab({ toast }: { toast: (msg: string, type?: ToastType) => voi
     setSelected(new Set());
     try {
       const cc = countryCodes[country] || "al";
-      const q = encodeURIComponent(searchQuery + ", " + country);
-      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${q}&countrycodes=${cc}&limit=40&addressdetails=1&featuretype=city&featuretype=town&featuretype=village&featuretype=hamlet`;
-      let text: string;
-      try {
-        const direct = await fetch(url, { headers: { "Accept": "application/json" } });
-        text = await direct.text();
-      } catch {
-        const wrapped = `https://corsproxy.io/?${encodeURIComponent(url)}`;
-        const res = await fetch(wrapped);
-        text = await res.text();
-      }
-      const results: any[] = JSON.parse(text);
+      const results: any[] = await geocodeViaBackend(searchQuery + ", " + country, { countrycodes: cc, limit: 40 });
       const filtered = results.filter((r: any) => {
         const t = r.type;
         return ["city", "town", "village", "hamlet", "suburb", "municipality", "administrative"].includes(t);
@@ -1298,9 +1301,7 @@ async function fetchWithProxyChain(targetUrl: string, signal?: AbortSignal): Pro
 
 async function fetchOverpassCountry(isoCode: string, signal?: AbortSignal): Promise<OverpassNode[]> {
   const query = `[out:json][timeout:60];area["ISO3166-1"="${isoCode}"][admin_level=2]->.a;(node["place"~"^(city|town|village|hamlet|suburb|municipality)$"](area.a););out body;`;
-  const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-  const text = await fetchWithProxyChain(url, signal);
-  const parsed = JSON.parse(text);
+  const parsed = await overpassViaBackend(query, signal);
   return (parsed.elements || []).filter((el: any) => el.type === "node") as OverpassNode[];
 }
 
@@ -1721,13 +1722,11 @@ function OverpassYrTestTab({ toast }: { toast: (msg: string, type?: ToastType) =
     addLog(`Dërgoj query Overpass për ${countryLabels[selectedCountry]}...`);
 
     const query = `[out:json][timeout:30];area["ISO3166-1"="${selectedCountry}"][admin_level=2]->.a;(node["place"~"^(city|town|village)$"](area.a););out body 5;`;
-    const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
 
     const start = Date.now();
     try {
-      addLog(`GET → overpass-api.de (provoj 3 proxy)`);
-      const text = await fetchWithProxyChain(url);
-      const parsed = JSON.parse(text);
+      addLog(`POST → /api/overpass (backend)`);
+      const parsed = await overpassViaBackend(query);
       const nodes: OverpassTestResult[] = (parsed.elements || [])
         .filter((el: any) => el.type === "node")
         .map((el: any) => ({
