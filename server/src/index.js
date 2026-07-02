@@ -21,8 +21,13 @@ if (corsOrigin) {
   app.use(cors()); // zhvillim lokal
 }
 
-// Health check
-app.get("/api/health", async (_req, res) => {
+// Të gjitha rrugët nën një router të vetëm, i montuar EDHE te /api EDHE te /.
+// Arsyeja: te cPanel/Passenger, kur app-i montohet te moti.com.al/api, Passenger
+// ndonjëherë ia heq prefiksin /api kërkesës. Duke e montuar në të dyja vendet,
+// funksionon qoftë kur prefiksi ruhet (/api/...), qoftë kur hiqet (/...).
+const api = express.Router();
+
+api.get("/health", async (_req, res) => {
   try {
     await ping();
     res.json({ ok: true, db: "up" });
@@ -31,13 +36,17 @@ app.get("/api/health", async (_req, res) => {
   }
 });
 
-app.use("/api/auth", authRouter);
-app.use("/api/locations", locationsRouter);
-app.use("/api", weatherRouter); // /api/weather, /api/metalerts
+api.use("/auth", authRouter);
+api.use("/locations", locationsRouter);
+api.use("/", weatherRouter); // /weather, /metalerts
+
+app.use("/api", api);
+app.use("/", api);
 
 app.use((_req, res) => res.status(404).json({ error: "Endpoint i panjohur" }));
 
-const PORT = Number(process.env.PORT || 8080);
-app.listen(PORT, "127.0.0.1", () => {
-  console.log(`[moti-server] duke dëgjuar në http://127.0.0.1:${PORT}`);
+// PORT-in e cakton Passenger përmes env; dotenv nuk e mbishkruan një vlerë ekzistuese.
+const PORT = Number(process.env.PORT) || 8080;
+app.listen(PORT, () => {
+  console.log(`[moti-server] duke dëgjuar në portën ${PORT}`);
 });
