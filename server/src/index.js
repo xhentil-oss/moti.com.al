@@ -27,6 +27,9 @@ if (corsOrigin) {
 // funksionon qoftë kur prefiksi ruhet (/api/...), qoftë kur hiqet (/...).
 const api = express.Router();
 
+// Rrugë statusi te rrënja — që kontrolli i cPanel/Passenger të marrë 200 JSON.
+api.get("/", (_req, res) => res.json({ ok: true, service: "moti-api" }));
+
 api.get("/health", async (_req, res) => {
   try {
     await ping();
