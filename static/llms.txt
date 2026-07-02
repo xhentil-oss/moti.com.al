@@ -1,0 +1,30 @@
+# Moti.com.al
+
+> Platforma kryesore e parashikimit të motit për Shqipëri, Kosovë dhe Maqedoninë e Veriut. Parashikime orë-pas-ore dhe 10-ditore për çdo qytet e fshat, me të dhëna live nga MET/Yr (Instituti Meteorologjik Norvegjez).
+
+Moti.com.al ofron temperaturën, reshjet, erën, lagështinë, presionin dhe indeksin UV për qindra vendbanime. Gjuha e faqes është shqip (sq-AL).
+
+## Faqet kryesore
+
+- [Kryefaqja](https://moti.com.al/): Kërkim qyteti dhe moti aktual për vendbanimet kryesore.
+- [Të gjitha vendbanimet](https://moti.com.al/vendbanimet): Lista e plotë e qyteteve dhe fshatrave me parashikim moti.
+- [Sitemap XML](https://moti.com.al/api/sitemap.xml): Harta e plotë e të gjitha faqeve të indeksueshme.
+
+## Qytete kryesore
+
+- [Moti në Tiranë](https://moti.com.al/vendbanim/tirana)
+- [Moti në Durrës](https://moti.com.al/vendbanim/durres)
+- [Moti në Vlorë](https://moti.com.al/vendbanim/vlore)
+- [Moti në Shkodër](https://moti.com.al/vendbanim/shkoder)
+- [Moti në Elbasan](https://moti.com.al/vendbanim/elbasan)
+- [Moti në Korçë](https://moti.com.al/vendbanim/korca)
+- [Moti në Prishtinë](https://moti.com.al/vendbanim/pristina)
+
+## Struktura e URL-ve
+
+- Faqja e një vendbanimi: `https://moti.com.al/vendbanim/<id>` (p.sh. `tirana`, `durres`).
+- Faqja ditore: `https://moti.com.al/vendbanim/<id>/dita/<YYYY-MM-DD>`.
+
+## Burimi i të dhënave
+
+Të dhënat meteorologjike vijnë nga [MET Norway / Yr](https://api.met.no). Vlerat përditësohen rregullisht dhe janë vetëm për qëllime informative.
