@@ -17,6 +17,9 @@ dist-ssr
 server/.env
 server/node_modules
 server/seed/locations.json
+server/tmp
+# Artefakt i gabimit të vjetër të shtypit te Application root (serve → server)
+/serve
 
 # Editor directories and files
 .vscode/*
