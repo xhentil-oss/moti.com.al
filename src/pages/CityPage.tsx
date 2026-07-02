@@ -11,6 +11,7 @@ import { StatTile } from "../components/weather/StatTile";
 import { WeatherCardSkeleton, HourlyCardSkeleton } from "../components/ui/Skeleton";
 import { useWeather } from "../context/WeatherContext";
 import { WeatherScene } from "../components/WeatherScene";
+import { useSeo } from "../lib/seo";
 import type { LocationWeather, LocationInfo } from "../types/weather";
 
 // ─── JSON-LD helpers ──────────────────────────────────────────────────────────
@@ -185,25 +186,22 @@ export const CityPage: React.FC = () => {
 
   const city = id ? getCityById(id) : undefined;
 
-  // Inject JSON-LD + page title
-  useEffect(() => {
-    if (!city) return;
-    document.title = `Moti në ${city.nameAl} — Parashikimi i motit | Moti.com.al`;
-
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.id = "city-jsonld";
-    script.textContent = buildJsonLd(city, weather);
-    const existing = document.getElementById("city-jsonld");
-    if (existing) existing.remove();
-    document.head.appendChild(script);
-
-    return () => {
-      const s = document.getElementById("city-jsonld");
-      if (s) s.remove();
-      document.title = "Moti.com.al — Parashikimi i motit në Shqipëri";
-    };
-  }, [city, weather]);
+  // SEO per-faqe (titull, meta, canonical, OG, JSON-LD)
+  useSeo(
+    city
+      ? {
+          title: `Moti në ${city.nameAl} — Parashikimi 10-ditor & orar | Moti.com.al`,
+          description: `Parashikimi i motit për ${city.nameAl}, ${city.region}: temperatura, reshjet, era, orë-pas-ore dhe 10-ditor. Të dhëna live nga MET/Yr.`,
+          canonical: `/vendbanim/${city.id}`,
+          type: "article",
+          jsonLd: JSON.parse(buildJsonLd(city, weather)),
+        }
+      : {
+          title: "Vendbanimi nuk u gjet | Moti.com.al",
+          description: "Vendbanimi që kërkuat nuk ekziston në bazën tonë.",
+          noindex: true,
+        }
+  );
 
   // Load weather data
   useEffect(() => {

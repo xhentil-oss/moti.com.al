@@ -11,10 +11,26 @@ import { HeroSearch } from "./components/HeroSearch";
 import { RegionHighlights } from "./components/RegionHighlights";
 import { SEOContent } from "./components/SEOContent";
 import { getCityById } from "../../lib/albanianCities";
+import { useSeo, SITE_URL } from "../../lib/seo";
 import type { SearchResult } from "../../types/weather";
 
 export const Main: React.FC = () => {
   const { weather, loadingState, error, unit, loadWeather, addRecentSearch, recentSearches, currentLocation } = useWeather();
+
+  useSeo({
+    title: "Moti.com.al — Parashikimi i Motit për Shqipëri, Kosovë & Maqedoni",
+    description:
+      "Parashikimi i motit orë-pas-ore dhe 10-ditor për çdo qytet në Shqipëri, Kosovë dhe Maqedoninë e Veriut. Të dhëna live nga MET/Yr.",
+    canonical: "/",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "Moti.com.al",
+      url: `${SITE_URL}/`,
+      logo: `${SITE_URL}/og-default.png`,
+      description: "Platforma e motit për Shqipëri, Kosovë dhe Maqedoninë e Veriut",
+    },
+  });
 
   // Load default city (Tirana) on mount
   useEffect(() => {

@@ -7,6 +7,7 @@ import { formatTemp, getWindDirection } from "../lib/weatherSymbols";
 import { DailyForecast } from "../components/weather/DailyForecast";
 import { WeatherIcon } from "../components/WeatherIcon";
 import { useWeather } from "../context/WeatherContext";
+import { useSeo } from "../lib/seo";
 import type { LocationWeather, HourlyForecast, LocationInfo } from "../types/weather";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -172,28 +173,18 @@ export const DayPage: React.FC = () => {
   const tempMax = hourlyForDay.length ? Math.max(...hourlyForDay.map((h) => h.temperature)) : dailyEntry?.tempMax ?? null;
   const tempMin = hourlyForDay.length ? Math.min(...hourlyForDay.map((h) => h.temperature)) : dailyEntry?.tempMin ?? null;
 
-  // Inject JSON-LD + page title
-  useEffect(() => {
-    if (!city || !date) return;
-    const dateLabel = formatDate(date);
-    document.title = `Moti në ${city.nameAl} — ${dateLabel} | Moti.com.al`;
-
-    if (weather || !loading) {
-      const script = document.createElement("script");
-      script.type = "application/ld+json";
-      script.id = "day-jsonld";
-      script.textContent = buildJsonLd(city, date, hourlyForDay);
-      const existing = document.getElementById("day-jsonld");
-      if (existing) existing.remove();
-      document.head.appendChild(script);
-    }
-
-    return () => {
-      const s = document.getElementById("day-jsonld");
-      if (s) s.remove();
-      document.title = "Moti.com.al — Parashikimi i motit në Shqipëri";
-    };
-  }, [city, date, weather, loading]);
+  // SEO per-faqe (titull, meta, canonical, JSON-LD)
+  useSeo(
+    city && date
+      ? {
+          title: `Moti në ${city.nameAl} — ${formatDate(date)} | Moti.com.al`,
+          description: `Parashikimi i motit për ${city.nameAl} më ${formatDate(date)}: orë-pas-ore, temperatura, reshjet, era dhe dielli.`,
+          canonical: `/vendbanim/${city.id}/dita/${date}`,
+          type: "article",
+          jsonLd: weather || !loading ? JSON.parse(buildJsonLd(city, date, hourlyForDay)) : undefined,
+        }
+      : { title: "Dita nuk u gjet | Moti.com.al", description: "Faqja nuk ekziston.", noindex: true }
+  );
 
   // Load weather data (shares same API call as CityPage via cache)
   useEffect(() => {

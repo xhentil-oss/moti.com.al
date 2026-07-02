@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useQuery, useMutation, login as apiLogin, clearToken, isAuthenticated } from "../lib/anima";
 import type { Location } from "../lib/anima";
+import { useSeo } from "../lib/seo";
 import { ALBANIAN_CITIES, POPULAR_CITIES } from "../lib/albanianCities";
 import type { SearchResult } from "../types/weather";
 
@@ -2408,6 +2409,7 @@ function Sidebar({ tab, setTab, logout, mobileOpen, setMobileOpen }: {
 // ─── Main Admin Page ──────────────────────────────────────────────────────────
 export function AdminPage() {
   const navigate = useNavigate();
+  useSeo({ title: "Admin — Moti.com.al", description: "Panel administrativ.", noindex: true });
   const [authed, setAuthed] = useState(() => isAuthenticated());
   const [tab, setTab] = useState<TabId>("overview");
   const [mobileOpen, setMobileOpen] = useState(false);

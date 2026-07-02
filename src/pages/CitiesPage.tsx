@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { MapPin, ChevronRight } from "lucide-react";
 import { ALBANIAN_CITIES } from "../lib/albanianCities";
+import { useSeo, SITE_URL } from "../lib/seo";
 
 const COUNTRY_FLAGS: Record<string, string> = {
   Albania: "🇦🇱",
@@ -10,9 +11,20 @@ const COUNTRY_FLAGS: Record<string, string> = {
 };
 
 export const CitiesPage: React.FC = () => {
-  React.useEffect(() => {
-    document.title = "Të gjitha vendbanimet — Moti.com.al";
-  }, []);
+  useSeo({
+    title: "Të gjitha vendbanimet — Moti për qytetet e Shqipërisë, Kosovës & Maqedonisë | Moti.com.al",
+    description:
+      "Lista e plotë e qyteteve dhe fshatrave me parashikim moti: Shqipëri, Kosovë dhe Maqedoni e Veriut. Zgjidh vendbanimin për motin live, orar dhe 10-ditor.",
+    canonical: "/vendbanimet",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Kryefaqja", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Vendbanimet", item: `${SITE_URL}/vendbanimet` },
+      ],
+    },
+  });
 
   const byCountry = ALBANIAN_CITIES.reduce<Record<string, typeof ALBANIAN_CITIES>>((acc, c) => {
     if (!acc[c.country]) acc[c.country] = [];
