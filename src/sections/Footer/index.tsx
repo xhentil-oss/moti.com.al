@@ -40,12 +40,12 @@ export const Footer: React.FC = () => {
               </div>
               <span className="text-base font-display font-extrabold text-white tracking-tight">MOTI.COM.AL</span>
             </div>
-            <p className="text-sm text-white/45 leading-relaxed max-w-xs mb-5">
+            <p className="text-sm text-white/70 leading-relaxed max-w-xs mb-5">
               Platforma kryesore e motit për Shqipëri, Kosovë dhe Maqedoninë e Veriut. Parashikime orë-pas-ore dhe 10-ditore të bazuara mbi Yr/MET API.
             </p>
             <div className="flex items-center gap-1 mb-4">
-              <MapPin className="w-3.5 h-3.5 text-white/30" />
-              <span className="text-xs text-white/30">Tiranë, Shqipëri</span>
+              <MapPin className="w-3.5 h-3.5 text-white/65" />
+              <span className="text-xs text-white/65">Tiranë, Shqipëri</span>
             </div>
             {/* Social */}
             <div className="flex items-center gap-2">
@@ -60,14 +60,14 @@ export const Footer: React.FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-8 h-8 rounded-xl bg-white/[0.07] hover:bg-white/[0.14] border border-white/[0.09] flex items-center justify-center text-white/50 hover:text-white transition-all"
+                  className="w-8 h-8 rounded-xl bg-white/[0.07] hover:bg-white/[0.14] border border-white/[0.09] flex items-center justify-center text-white/70 hover:text-white transition-all"
                 >
                   <Icon className="w-3.5 h-3.5" />
                 </a>
               ))}
               <a
                 href="mailto:info@moti.com.al"
-                className="flex items-center gap-1.5 ml-2 text-xs text-white/40 hover:text-white/70 transition-colors"
+                className="flex items-center gap-1.5 ml-2 text-xs text-white/65 hover:text-white/70 transition-colors"
               >
                 <Mail className="w-3.5 h-3.5" />
                 info@moti.com.al
@@ -88,7 +88,7 @@ export const Footer: React.FC = () => {
                   <li key={label}>
                     <a
                       href={href}
-                      className="text-sm text-white/40 hover:text-white/80 transition-colors"
+                      className="text-sm text-white/65 hover:text-white/80 transition-colors"
                     >
                       {label}
                     </a>
@@ -101,16 +101,16 @@ export const Footer: React.FC = () => {
 
         {/* Bottom bar */}
         <div className="border-t border-white/[0.06] pt-5 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-white/25 text-center md:text-left">
+          <p className="text-xs text-white/60 text-center md:text-left">
             © {year} Moti.com.al · Të gjitha të drejtat e rezervuara
           </p>
-          <div className="flex items-center gap-1 text-xs text-white/20">
+          <div className="flex items-center gap-1 text-xs text-white/60">
             Të dhënat meteorologjike nga{" "}
             <a
               href="https://api.met.no"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/35 hover:text-white/60 transition-colors inline-flex items-center gap-0.5"
+              className="text-white/65 hover:text-white/60 transition-colors inline-flex items-center gap-0.5"
             >
               Yr/MET Norway
               <ExternalLink className="w-2.5 h-2.5" />

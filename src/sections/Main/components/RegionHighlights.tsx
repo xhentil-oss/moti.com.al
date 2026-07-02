@@ -35,9 +35,9 @@ export const RegionHighlights: React.FC<RegionHighlightsProps> = ({ onSelectCity
             <span className="text-xl">{region.emoji}</span>
             <div className="flex-1 min-w-0">
               <div className="text-sm font-semibold text-white/85">{region.name}</div>
-              <div className="text-xs text-white/35 truncate">{region.cities.join(" · ")}</div>
+              <div className="text-xs text-white/65 truncate">{region.cities.join(" · ")}</div>
             </div>
-            <ChevronRight className="w-4 h-4 text-white/25 group-hover:text-white/60 transition-colors" />
+            <ChevronRight className="w-4 h-4 text-white/60 group-hover:text-white/60 transition-colors" />
           </button>
         ))}
       </div>

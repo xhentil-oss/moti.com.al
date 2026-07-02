@@ -117,7 +117,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         ${isOpen ? "bg-moti-navy border-moti-sky/60 shadow-glow-sky ring-1 ring-moti-sky/20" : "bg-white/[0.08] border-white/[0.12] hover:border-white/20"}
       `}
       >
-        <Search className="w-4 h-4 text-white/40 flex-shrink-0" />
+        <Search className="w-4 h-4 text-white/65 flex-shrink-0" />
         <input
           ref={inputRef}
           type="search"
@@ -139,7 +139,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
               setResults([]);
               inputRef.current?.focus();
             }}
-            className="flex-shrink-0 text-white/40 hover:text-white/80 transition-colors"
+            className="flex-shrink-0 text-white/65 hover:text-white/80 transition-colors"
             aria-label="Fshi kërkimin"
           >
             <X className="w-4 h-4" />
@@ -156,7 +156,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         >
           {displayList.length > 0 ? (
             <>
-              <div className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold text-white/40 uppercase tracking-wider border-b border-white/[0.06]">
+              <div className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold text-white/65 uppercase tracking-wider border-b border-white/[0.06]">
                 {sectionIcon}
                 {sectionLabel}
               </div>
@@ -175,12 +175,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                     <div className="text-sm font-semibold text-white leading-none">
                       {city.nameAl}
                     </div>
-                    <div className="text-xs text-white/40 mt-0.5">
+                    <div className="text-xs text-white/65 mt-0.5">
                       {city.region}, {city.country}
                     </div>
                   </div>
                   {city.population && (
-                    <span className="text-xs text-white/30 flex-shrink-0">
+                    <span className="text-xs text-white/65 flex-shrink-0">
                       {(city.population / 1000).toFixed(0)}k banorë
                     </span>
                   )}
@@ -188,7 +188,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
               ))}
             </>
           ) : (
-            <div className="px-4 py-6 text-center text-white/40 text-sm">
+            <div className="px-4 py-6 text-center text-white/65 text-sm">
               <Search className="w-8 h-8 mx-auto mb-2 opacity-30" />
               Nuk u gjet asnjë qytet për &quot;{query}&quot;
             </div>

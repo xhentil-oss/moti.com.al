@@ -29,7 +29,7 @@ export const LocationPrompt: React.FC = () => {
         {/* Dismiss */}
         <button
           onClick={dismissLocationPrompt}
-          className="absolute top-3 right-3 p-1 rounded-lg text-white/40 hover:text-white hover:bg-white/8 transition-all"
+          className="absolute top-3 right-3 p-1 rounded-lg text-white/65 hover:text-white hover:bg-white/8 transition-all"
           aria-label="Mbyll"
         >
           <X className="w-4 h-4" />
@@ -41,7 +41,7 @@ export const LocationPrompt: React.FC = () => {
           </div>
           <div>
             <div className="text-sm font-bold text-white mb-0.5">Vendndodhja juaj</div>
-            <div className="text-xs text-white/50 leading-relaxed mb-3">
+            <div className="text-xs text-white/70 leading-relaxed mb-3">
               Lejo vendndodhjen për të parë <strong className="text-white/70">motin e qytetit tuaj</strong> automatikisht.
             </div>
             <div className="flex gap-2">
@@ -54,7 +54,7 @@ export const LocationPrompt: React.FC = () => {
               </button>
               <button
                 onClick={dismissLocationPrompt}
-                className="px-3.5 py-1.5 rounded-xl text-white/50 hover:text-white text-xs font-medium border border-white/12 hover:bg-white/6 transition-all"
+                className="px-3.5 py-1.5 rounded-xl text-white/70 hover:text-white text-xs font-medium border border-white/12 hover:bg-white/6 transition-all"
               >
                 Më vonë
               </button>

@@ -15,7 +15,7 @@ const variantStyles: Record<BadgeVariant, string> = {
   danger: "bg-red-500/20 text-red-300 border border-red-500/30",
   success: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30",
   info: "bg-sky-500/20 text-sky-300 border border-sky-500/30",
-  ghost: "bg-transparent text-white/50 border border-white/10",
+  ghost: "bg-transparent text-white/70 border border-white/10",
 };
 
 export const Badge: React.FC<BadgeProps> = ({ children, variant = "default", size = "sm", className = "" }) => {

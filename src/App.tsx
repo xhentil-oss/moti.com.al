@@ -15,7 +15,7 @@ const DayPage = lazy(() => import("./pages/DayPage").then((m) => ({ default: m.D
 const AdminPage = lazy(() => import("./pages/AdminPage").then((m) => ({ default: m.AdminPage })));
 
 const RouteFallback = () => (
-  <div className="flex items-center justify-center py-24 text-white/50 text-sm">Duke ngarkuar…</div>
+  <div className="flex items-center justify-center py-24 text-white/70 text-sm">Duke ngarkuar…</div>
 );
 
 const AppInner: React.FC = () => {

@@ -63,7 +63,7 @@ export const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly, unit }) 
                   : "bg-white/[0.05] border-white/[0.07] hover:bg-white/[0.09] hover:border-moti-sky/30"
                 }`}
             >
-              <span className={`text-xs font-semibold ${isNow ? "text-moti-sky" : "text-white/50"}`}>{label}</span>
+              <span className={`text-xs font-semibold ${isNow ? "text-moti-sky" : "text-white/70"}`}>{label}</span>
               <WeatherIcon emoji={h.symbol.emoji} size="sm" />
               <span className="text-sm font-bold text-white">{formatTemp(h.temperature, unit)}</span>
               {h.precipitationProbability > 20 && (

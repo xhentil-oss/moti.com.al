@@ -31,13 +31,13 @@ export const PopularCities: React.FC<PopularCitiesProps> = ({ onSelectCity, curr
                     : "text-white/65 hover:text-white hover:bg-white/[0.07]"
                 }`}
               >
-                <MapPin className={`w-3.5 h-3.5 flex-shrink-0 ${isActive ? "text-moti-sky" : "text-white/30 group-hover:text-moti-sky/60"}`} />
+                <MapPin className={`w-3.5 h-3.5 flex-shrink-0 ${isActive ? "text-moti-sky" : "text-white/65 group-hover:text-moti-sky/60"}`} />
                 <span className="font-medium truncate">{city.nameAl}</span>
-                <span className="ml-auto text-[11px] text-white/30 flex-shrink-0">{city.region}</span>
+                <span className="ml-auto text-[11px] text-white/65 flex-shrink-0">{city.region}</span>
               </button>
               <Link
                 to={`/vendbanim/${city.id}`}
-                className="p-2 rounded-xl text-white/20 hover:text-moti-sky hover:bg-white/[0.05] transition-all flex-shrink-0"
+                className="p-2 rounded-xl text-white/60 hover:text-moti-sky hover:bg-white/[0.05] transition-all flex-shrink-0"
                 title={`Shiko faqen e ${city.nameAl}`}
                 aria-label={`Detaje për ${city.nameAl}`}
               >

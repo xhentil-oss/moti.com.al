@@ -49,7 +49,7 @@ export const SEOContent: React.FC = () => {
             style={{ animationDelay: `${0.5 + i * 0.1}s` }}
           >
             <h2 className="text-base font-display font-bold text-white mb-2.5">{s.title}</h2>
-            <p className="text-sm text-white/55 leading-relaxed">{s.body}</p>
+            <p className="text-sm text-white/70 leading-relaxed">{s.body}</p>
           </article>
         ))}
       </div>
@@ -68,10 +68,10 @@ export const SEOContent: React.FC = () => {
                 className="w-full flex items-start justify-between gap-3 px-5 py-4 text-left hover:bg-white/[0.04] transition-colors"
               >
                 <h3 className="text-sm font-semibold text-white/85 leading-snug">{item.q}</h3>
-                <ChevronDown className={`w-4 h-4 text-white/40 flex-shrink-0 mt-0.5 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`} />
+                <ChevronDown className={`w-4 h-4 text-white/65 flex-shrink-0 mt-0.5 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`} />
               </button>
               {openFaq === i && (
-                <div className="px-5 pb-4 text-sm text-white/55 leading-relaxed animate-slide-down">
+                <div className="px-5 pb-4 text-sm text-white/70 leading-relaxed animate-slide-down">
                   {item.a}
                 </div>
               )}
@@ -91,7 +91,7 @@ export const SEOContent: React.FC = () => {
           <div key={i} className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-3.5 text-center">
             <div className="text-2xl mb-1.5">{item.emoji}</div>
             <div className="text-xs font-bold text-white/80">{item.label}</div>
-            <div className="text-xs text-white/35 mt-0.5">{item.sub}</div>
+            <div className="text-xs text-white/65 mt-0.5">{item.sub}</div>
           </div>
         ))}
       </div>

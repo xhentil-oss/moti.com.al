@@ -61,7 +61,7 @@ function buildJsonLd(city: ReturnType<typeof getCityById>, weather: LocationWeat
 
 function Breadcrumbs({ cityName }: { cityName: string }) {
   return (
-    <nav aria-label="Shtegun navigimi" className="flex items-center gap-1 text-xs text-white/50 mb-5 flex-wrap">
+    <nav aria-label="Shtegun navigimi" className="flex items-center gap-1 text-xs text-white/70 mb-5 flex-wrap">
       <Link to="/" className="hover:text-moti-sky transition-colors font-medium">Kryefaqja</Link>
       <ChevronRight className="w-3 h-3 flex-shrink-0" />
       <Link to="/vendbanimet" className="hover:text-moti-sky transition-colors font-medium">Vendbanimet</Link>
@@ -87,7 +87,7 @@ function NearbyCities({ currentId }: { currentId: string }) {
           >
             <MapPin className="w-3.5 h-3.5 text-moti-sky/70 group-hover:text-moti-sky flex-shrink-0" />
             <span className="font-medium">{city.nameAl}</span>
-            <span className="ml-auto text-white/30 text-xs">{city.country === "Albania" ? "AL" : city.country === "Kosovo" ? "XK" : "MK"}</span>
+            <span className="ml-auto text-white/65 text-xs">{city.country === "Albania" ? "AL" : city.country === "Kosovo" ? "XK" : "MK"}</span>
           </Link>
         ))}
       </div>
@@ -157,7 +157,7 @@ function CitySEOBlock({ city }: { city: NonNullable<ReturnType<typeof getCityByI
               {f.q}
               <ChevronRight className="w-3.5 h-3.5 transition-transform group-open:rotate-90 flex-shrink-0 ml-2" />
             </summary>
-            <p className="text-sm text-white/55 mt-2 leading-relaxed">{f.a}</p>
+            <p className="text-sm text-white/70 mt-2 leading-relaxed">{f.a}</p>
           </details>
         ))}
       </div>
@@ -245,7 +245,7 @@ export const CityPage: React.FC = () => {
       {/* Back button (mobile) */}
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-1.5 text-sm text-white/50 hover:text-white mb-4 transition-colors md:hidden"
+        className="flex items-center gap-1.5 text-sm text-white/70 hover:text-white mb-4 transition-colors md:hidden"
         aria-label="Kthehu mbrapa"
       >
         <ArrowLeft className="w-4 h-4" />
@@ -261,7 +261,7 @@ export const CityPage: React.FC = () => {
         <h1 className="text-3xl md:text-4xl font-display font-bold text-white leading-tight">
           Moti në {city.nameAl}
         </h1>
-        <p className="text-white/50 mt-1 text-sm">
+        <p className="text-white/70 mt-1 text-sm">
           Parashikimi i detajuar 10-ditor • Orë për orë • Të dhëna të plota meteorologjike
         </p>
       </div>
@@ -291,7 +291,7 @@ export const CityPage: React.FC = () => {
                       {formatTemp(weather.current.temperature, unit)}
                     </div>
                     <div className="text-white/60 text-base mt-1 font-medium">{weather.current.symbol.label}</div>
-                    <div className="text-white/40 text-sm mt-0.5">Ndjehet si {formatTemp(weather.current.feelsLike, unit)}</div>
+                    <div className="text-white/65 text-sm mt-0.5">Ndjehet si {formatTemp(weather.current.feelsLike, unit)}</div>
                   </div>
                   <WeatherIcon emoji={weather.current.symbol.emoji} size="2xl" animated />
                 </div>
@@ -337,7 +337,7 @@ export const CityPage: React.FC = () => {
                   { icon: <Sun className="w-3.5 h-3.5" />, label: "UV", value: String(weather.current.uvIndex) },
                 ].map(({ icon, label, value }) => (
                   <div key={label} className="flex flex-col gap-0.5 px-2.5 py-2 rounded-xl bg-white/[0.04] border border-white/[0.05]">
-                    <div className="flex items-center gap-1 text-moti-sky">{icon}<span className="text-[10px] text-white/40 uppercase tracking-wide">{label}</span></div>
+                    <div className="flex items-center gap-1 text-moti-sky">{icon}<span className="text-[10px] text-white/65 uppercase tracking-wide">{label}</span></div>
                     <span className="text-sm font-bold text-white">{value}</span>
                   </div>
                 ))}

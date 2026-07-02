@@ -82,7 +82,7 @@ function HourlyRow({ hour, unit }: { hour: HourlyForecast; unit: "C" | "F" }) {
   const h = formatHour(hour.time);
   return (
     <div className="flex items-center gap-3 px-4 py-3 hover:bg-white/[0.04] transition-colors rounded-xl">
-      <span className="text-sm text-white/50 w-12 flex-shrink-0 font-mono">{h}</span>
+      <span className="text-sm text-white/70 w-12 flex-shrink-0 font-mono">{h}</span>
       <div className="w-8 flex-shrink-0">
         <WeatherIcon emoji={hour.symbol.emoji} size="sm" />
       </div>
@@ -96,10 +96,10 @@ function HourlyRow({ hour, unit }: { hour: HourlyForecast; unit: "C" | "F" }) {
         </div>
       )}
       <div className="flex items-center gap-1 flex-1 min-w-0">
-        <Wind className="w-3.5 h-3.5 text-white/30 flex-shrink-0" />
-        <span className="text-xs text-white/40 truncate">{hour.windSpeed} km/h {getWindDirection(hour.windDirection)}</span>
+        <Wind className="w-3.5 h-3.5 text-white/65 flex-shrink-0" />
+        <span className="text-xs text-white/65 truncate">{hour.windSpeed} km/h {getWindDirection(hour.windDirection)}</span>
       </div>
-      <span className="text-xs text-white/30 w-10 text-right flex-shrink-0">{hour.humidity}%</span>
+      <span className="text-xs text-white/65 w-10 text-right flex-shrink-0">{hour.humidity}%</span>
     </div>
   );
 }
@@ -108,7 +108,7 @@ function HourPeriodSection({ label, hours, unit }: { label: string; hours: Hourl
   if (!hours.length) return null;
   return (
     <div className="mb-2">
-      <div className="px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white/30">{label}</div>
+      <div className="px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white/65">{label}</div>
       {hours.map((h) => <HourlyRow key={h.time} hour={h} unit={unit} />)}
     </div>
   );
@@ -240,7 +240,7 @@ export const DayPage: React.FC = () => {
     <main id="main-content" aria-label={`Moti në ${city.nameAl} — ${dateLabel}`} className="max-w-4xl mx-auto px-4 md:px-6 pb-28 md:pb-12 pt-6">
 
       {/* Breadcrumbs */}
-      <nav aria-label="Shtegun navigimi" className="flex items-center gap-1 text-xs text-white/50 mb-5 flex-wrap">
+      <nav aria-label="Shtegun navigimi" className="flex items-center gap-1 text-xs text-white/70 mb-5 flex-wrap">
         <Link to="/" className="hover:text-moti-sky transition-colors font-medium">Kryefaqja</Link>
         <ChevronRight className="w-3 h-3 flex-shrink-0" />
         <Link to="/vendbanimet" className="hover:text-moti-sky transition-colors font-medium">Vendbanimet</Link>
@@ -253,7 +253,7 @@ export const DayPage: React.FC = () => {
       {/* Back button */}
       <button
         onClick={() => navigate(`/vendbanim/${city.id}`)}
-        className="flex items-center gap-1.5 text-sm text-white/50 hover:text-white mb-5 transition-colors"
+        className="flex items-center gap-1.5 text-sm text-white/70 hover:text-white mb-5 transition-colors"
         aria-label="Kthehu te parashikimi"
       >
         <ArrowLeft className="w-4 h-4" />
@@ -270,7 +270,7 @@ export const DayPage: React.FC = () => {
           Moti në {city.nameAl}
         </h1>
         <p className="text-white/60 text-base mt-0.5 font-medium capitalize">{dateLabel}</p>
-        <p className="text-white/40 text-sm mt-0.5">Parashikimi orë për orë • MET Norway</p>
+        <p className="text-white/65 text-sm mt-0.5">Parashikimi orë për orë • MET Norway</p>
       </div>
 
       {/* Day summary card */}
@@ -290,11 +290,11 @@ export const DayPage: React.FC = () => {
                       <span className="text-5xl font-display font-bold text-white">{formatTemp(tempMax, unit)}</span>
                     )}
                     {tempMin !== null && (
-                      <span className="text-2xl font-display text-white/40">{formatTemp(tempMin, unit)}</span>
+                      <span className="text-2xl font-display text-white/65">{formatTemp(tempMin, unit)}</span>
                     )}
                   </div>
                   {dailyEntry && (
-                    <p className="text-white/50 text-sm mt-1">{dailyEntry.symbol.label}</p>
+                    <p className="text-white/70 text-sm mt-1">{dailyEntry.symbol.label}</p>
                   )}
                 </div>
                 {dailyEntry && (
@@ -304,11 +304,11 @@ export const DayPage: React.FC = () => {
                   <div className="grid grid-cols-3 gap-3 w-full mt-2 pt-3 border-t border-white/[0.06]">
                     {[
                       { icon: <Droplets className="w-3.5 h-3.5 text-sky-400" />, label: "Reshjet", value: `${dailyEntry.precipitationProbability}%` },
-                      { icon: <Wind className="w-3.5 h-3.5 text-white/40" />, label: "Era", value: `${dailyEntry.windSpeed} km/h` },
+                      { icon: <Wind className="w-3.5 h-3.5 text-white/65" />, label: "Era", value: `${dailyEntry.windSpeed} km/h` },
                       { icon: <Thermometer className="w-3.5 h-3.5 text-amber-400" />, label: "Temperatura", value: `${formatTemp(tempMin!, unit)} – ${formatTemp(tempMax!, unit)}` },
                     ].map(({ icon, label, value }) => (
                       <div key={label} className="flex flex-col gap-0.5 px-2.5 py-2 rounded-xl bg-white/[0.04] border border-white/[0.05]">
-                        <div className="flex items-center gap-1">{icon}<span className="text-[10px] text-white/35 uppercase tracking-wide">{label}</span></div>
+                        <div className="flex items-center gap-1">{icon}<span className="text-[10px] text-white/65 uppercase tracking-wide">{label}</span></div>
                         <span className="text-sm font-bold text-white">{value}</span>
                       </div>
                     ))}
@@ -331,16 +331,16 @@ export const DayPage: React.FC = () => {
       <div className="rounded-2xl bg-moti-navy-mid border border-white/[0.07] overflow-hidden shadow-card animate-fade-up" style={{ animationDelay: "0.1s" }}>
         {/* Column headers */}
         <div className="flex items-center gap-3 px-4 py-2.5 border-b border-white/[0.06] bg-white/[0.02]">
-          <span className="text-xs text-white/30 uppercase tracking-widest w-12 flex-shrink-0">Ora</span>
+          <span className="text-xs text-white/65 uppercase tracking-widest w-12 flex-shrink-0">Ora</span>
           <span className="w-8 flex-shrink-0" />
-          <span className="text-xs text-white/30 uppercase tracking-widest w-14 flex-shrink-0 text-right">Temp</span>
-          <span className="text-xs text-white/30 uppercase tracking-widest w-14 flex-shrink-0">Reshjet</span>
-          <span className="text-xs text-white/30 uppercase tracking-widest flex-1 min-w-0">Era</span>
-          <span className="text-xs text-white/30 uppercase tracking-widest w-10 text-right flex-shrink-0">Lag</span>
+          <span className="text-xs text-white/65 uppercase tracking-widest w-14 flex-shrink-0 text-right">Temp</span>
+          <span className="text-xs text-white/65 uppercase tracking-widest w-14 flex-shrink-0">Reshjet</span>
+          <span className="text-xs text-white/65 uppercase tracking-widest flex-1 min-w-0">Era</span>
+          <span className="text-xs text-white/65 uppercase tracking-widest w-10 text-right flex-shrink-0">Lag</span>
         </div>
 
         {loading ? (
-          <div className="py-16 flex flex-col items-center gap-3 text-white/30">
+          <div className="py-16 flex flex-col items-center gap-3 text-white/65">
             <div className="w-6 h-6 rounded-full border-2 border-moti-sky border-t-transparent animate-spin" />
             <span className="text-sm">Duke ngarkuar të dhënat…</span>
           </div>
@@ -360,7 +360,7 @@ export const DayPage: React.FC = () => {
             <HourPeriodSection label="🌆 Mbrëmje (18–24)" hours={evening} unit={unit} />
           </div>
         ) : (
-          <div className="py-16 flex flex-col items-center gap-3 text-white/30">
+          <div className="py-16 flex flex-col items-center gap-3 text-white/65">
             <Sun className="w-8 h-8" />
             <p className="text-sm text-center max-w-xs">
               Nuk ka të dhëna të disponueshme për këtë ditë.
@@ -400,7 +400,7 @@ export const DayPage: React.FC = () => {
                 {q}
                 <ChevronRight className="w-3.5 h-3.5 transition-transform group-open:rotate-90 flex-shrink-0 ml-2" />
               </summary>
-              <p className="text-sm text-white/55 mt-2 leading-relaxed">{a}</p>
+              <p className="text-sm text-white/70 mt-2 leading-relaxed">{a}</p>
             </details>
           ))}
         </div>

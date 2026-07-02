@@ -33,11 +33,11 @@ export const CurrentWeatherCard: React.FC<CurrentWeatherCardProps> = ({ weather,
           <div>
             <div className="flex items-center gap-1.5 mb-0.5">
               <MapPin className="w-3.5 h-3.5 text-moti-sky" />
-              <span className="text-xs text-white/50 font-medium uppercase tracking-wider">{location.region}, {location.country}</span>
+              <span className="text-xs text-white/70 font-medium uppercase tracking-wider">{location.region}, {location.country}</span>
             </div>
             <h1 className="text-2xl md:text-3xl font-display font-bold text-white leading-tight">{location.nameAl}</h1>
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-white/40">
+          <div className="flex items-center gap-1.5 text-xs text-white/65">
             <RefreshCw className="w-3 h-3" />
             <span>{updatedTime}</span>
           </div>
@@ -50,7 +50,7 @@ export const CurrentWeatherCard: React.FC<CurrentWeatherCardProps> = ({ weather,
               {formatTemp(current.temperature, unit)}
             </div>
             <div className="text-white/60 text-base mt-1 font-medium">{current.symbol.label}</div>
-            <div className="text-white/40 text-sm mt-0.5">
+            <div className="text-white/65 text-sm mt-0.5">
               Ndjehet si {formatTemp(current.feelsLike, unit)}
             </div>
           </div>

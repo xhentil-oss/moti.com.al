@@ -66,10 +66,10 @@ export const DailyForecast: React.FC<DailyForecastProps> = ({ daily, unit, cityI
 
             <TempBar min={day.tempMin} max={day.tempMax} absMin={absMin} absMax={absMax} />
 
-            <span className="text-sm text-white/40 w-9 text-right flex-shrink-0">{formatTemp(day.tempMin, unit)}</span>
+            <span className="text-sm text-white/65 w-9 text-right flex-shrink-0">{formatTemp(day.tempMin, unit)}</span>
             <span className="text-sm font-bold text-white w-9 text-right flex-shrink-0">{formatTemp(day.tempMax, unit)}</span>
             {cityId && (
-              <ChevronRight className="w-3.5 h-3.5 text-white/20 group-hover:text-moti-sky/60 flex-shrink-0 transition-colors" />
+              <ChevronRight className="w-3.5 h-3.5 text-white/60 group-hover:text-moti-sky/60 flex-shrink-0 transition-colors" />
             )}
           </button>
         ))}

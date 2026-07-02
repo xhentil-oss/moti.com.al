@@ -19,7 +19,7 @@ export const MobileNav: React.FC = () => (
         <a
           key={href}
           href={href}
-          className="flex flex-col items-center gap-1 px-2 py-1.5 rounded-xl text-white/45 hover:text-white transition-colors min-w-[52px]"
+          className="flex flex-col items-center gap-1 px-2 py-1.5 rounded-xl text-white/70 hover:text-white transition-colors min-w-[52px]"
           aria-label={label}
         >
           <Icon className="w-5 h-5" />

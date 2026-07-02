@@ -40,7 +40,7 @@ export const HeroSearch: React.FC<HeroSearchProps> = ({ onSelectCity, recentSear
             </span>
           </h1>
 
-          <p className="text-white/50 text-sm mb-5 max-w-lg">
+          <p className="text-white/70 text-sm mb-5 max-w-lg">
             Parashikime të sakta orë-pas-ore dhe 10-ditore të hartuara mbi të dhënat e Yr/MET API.
           </p>
 

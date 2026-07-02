@@ -13,7 +13,7 @@ export const HeaderLogo: React.FC = () => (
       <span className="text-base font-display font-extrabold text-white tracking-tight group-hover:text-moti-sky-light transition-colors">
         MOTI
       </span>
-      <span className="text-[9px] font-semibold text-white/40 uppercase tracking-[0.15em]">com.al</span>
+      <span className="text-[9px] font-semibold text-white/65 uppercase tracking-[0.15em]">com.al</span>
     </div>
   </a>
 );
