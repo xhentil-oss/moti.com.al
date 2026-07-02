@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { WeatherProvider, useWeather } from "./context/WeatherContext";
 import { Header } from "./sections/Header";
@@ -7,9 +7,16 @@ import { Footer } from "./sections/Footer";
 import { MobileNav } from "./components/MobileNav";
 import { LocationPrompt } from "./components/LocationPrompt";
 import { CityPage } from "./pages/CityPage";
-import { CitiesPage } from "./pages/CitiesPage";
-import { DayPage } from "./pages/DayPage";
-import { AdminPage } from "./pages/AdminPage";
+
+// Ndarje kodi (code-splitting): këto faqe ngarkohen vetëm kur nevojiten,
+// që bundle-i fillestar (kryefaqja + faqet e qyteteve) të jetë sa më i vogël.
+const CitiesPage = lazy(() => import("./pages/CitiesPage").then((m) => ({ default: m.CitiesPage })));
+const DayPage = lazy(() => import("./pages/DayPage").then((m) => ({ default: m.DayPage })));
+const AdminPage = lazy(() => import("./pages/AdminPage").then((m) => ({ default: m.AdminPage })));
+
+const RouteFallback = () => (
+  <div className="flex items-center justify-center py-24 text-white/50 text-sm">Duke ngarkuar…</div>
+);
 
 const AppInner: React.FC = () => {
   const { theme } = useWeather();
@@ -23,15 +30,17 @@ const AppInner: React.FC = () => {
         Kalo tek përmbajtja kryesore
       </a>
       <Header />
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/vendbanimet" element={<CitiesPage />} />
-        <Route path="/vendbanim/:id" element={<CityPage />} />
-        <Route path="/vendbanim/:id/dita/:date" element={<DayPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        {/* Fallback */}
-        <Route path="*" element={<Main />} />
-      </Routes>
+      <Suspense fallback={<RouteFallback />}>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/vendbanimet" element={<CitiesPage />} />
+          <Route path="/vendbanim/:id" element={<CityPage />} />
+          <Route path="/vendbanim/:id/dita/:date" element={<DayPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          {/* Fallback */}
+          <Route path="*" element={<Main />} />
+        </Routes>
+      </Suspense>
       <Footer />
       <MobileNav />
       <LocationPrompt />
