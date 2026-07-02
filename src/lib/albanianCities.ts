@@ -570,7 +570,8 @@ export function useSearchLocations() {
             { region: { contains: searchTerm } },
           ],
         },
-        limit: 10,
+        orderBy: { population: "desc" }, // qytetet e mëdha të parat (Tiranë para fshatrave)
+        limit: 12,
       });
       if (dbResults && dbResults.length > 0) {
         return dbResults.map((loc: Location) => ({
