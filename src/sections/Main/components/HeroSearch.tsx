@@ -11,7 +11,7 @@ export const HeroSearch: React.FC<HeroSearchProps> = ({ onSelectCity, recentSear
   return (
     <section
       aria-label="Kërko motin"
-      className="relative overflow-hidden bg-gradient-to-b from-moti-navy-dark to-moti-navy pt-8 pb-10 px-4 md:px-6"
+      className="relative bg-gradient-to-b from-moti-navy-dark to-moti-navy pt-8 pb-10 px-4 md:px-6"
     >
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
