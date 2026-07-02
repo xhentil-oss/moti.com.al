@@ -661,7 +661,7 @@ function OverviewTab({ toast }: { toast: (msg: string, type?: ToastType) => void
           <Zap className="w-3.5 h-3.5 text-moti-amber" /> Veprime të Shpejta
         </p>
         <div className="flex flex-wrap gap-2">
-          <Link to="/vendbanim/tirane" className="flex items-center gap-1.5 text-xs bg-white/[0.07] hover:bg-white/[0.12] border border-white/10 text-white rounded-xl px-3 py-2 transition-all font-medium">
+          <Link to="/vendbanim/tirana" className="flex items-center gap-1.5 text-xs bg-white/[0.07] hover:bg-white/[0.12] border border-white/10 text-white rounded-xl px-3 py-2 transition-all font-medium">
             <MapPin className="w-3.5 h-3.5 text-moti-sky" /> Tiranë
           </Link>
           <Link to="/vendbanim/shkoder" className="flex items-center gap-1.5 text-xs bg-white/[0.07] hover:bg-white/[0.12] border border-white/10 text-white rounded-xl px-3 py-2 transition-all font-medium">
@@ -673,7 +673,7 @@ function OverviewTab({ toast }: { toast: (msg: string, type?: ToastType) => void
           <Link to="/vendbanim/vlore" className="flex items-center gap-1.5 text-xs bg-white/[0.07] hover:bg-white/[0.12] border border-white/10 text-white rounded-xl px-3 py-2 transition-all font-medium">
             <MapPin className="w-3.5 h-3.5 text-moti-sky" /> Vlorë
           </Link>
-          <Link to="/vendbanim/prishtine" className="flex items-center gap-1.5 text-xs bg-white/[0.07] hover:bg-white/[0.12] border border-white/10 text-white rounded-xl px-3 py-2 transition-all font-medium">
+          <Link to="/vendbanim/pristina" className="flex items-center gap-1.5 text-xs bg-white/[0.07] hover:bg-white/[0.12] border border-white/10 text-white rounded-xl px-3 py-2 transition-all font-medium">
             <MapPin className="w-3.5 h-3.5 text-moti-amber" /> Prishtinë
           </Link>
           <Link to="/vendbanimet" className="flex items-center gap-1.5 text-xs bg-white/[0.07] hover:bg-white/[0.12] border border-white/10 text-slate-300 rounded-xl px-3 py-2 transition-all">

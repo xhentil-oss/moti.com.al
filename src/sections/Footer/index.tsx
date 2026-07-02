@@ -10,11 +10,11 @@ const FOOTER_LINKS = {
     { label: "Harta e motit", href: "/harta" },
   ],
   qytetet: [
-    { label: "Tiranë", href: "/vendbanim/tirane" },
+    { label: "Tiranë", href: "/vendbanim/tirana" },
     { label: "Durrës", href: "/vendbanim/durres" },
     { label: "Vlorë", href: "/vendbanim/vlore" },
     { label: "Shkodër", href: "/vendbanim/shkoder" },
-    { label: "Prishtinë", href: "/vendbanim/prishtine" },
+    { label: "Prishtinë", href: "/vendbanim/pristina" },
   ],
   kompania: [
     { label: "Rreth nesh", href: "/rreth-nesh" },
