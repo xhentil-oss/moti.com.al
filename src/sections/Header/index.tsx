@@ -3,10 +3,10 @@ import { HeaderLogo } from "./components/HeaderLogo";
 import { DesktopNav } from "./components/DesktopNav";
 import { SearchBar } from "../../components/search/SearchBar";
 import { useWeather } from "../../context/WeatherContext";
-import { Menu, X, Sun, Moon, Thermometer } from "lucide-react";
+import { Menu, X, Thermometer } from "lucide-react";
 
 export const Header: React.FC = () => {
-  const { recentSearches, loadWeather, addRecentSearch, unit, setUnit, theme, setTheme } = useWeather();
+  const { recentSearches, loadWeather, addRecentSearch, unit, setUnit } = useWeather();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -60,13 +60,6 @@ export const Header: React.FC = () => {
             >
               <Thermometer className="w-3.5 h-3.5" />
               °{unit}
-            </button>
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2 rounded-xl text-white/60 hover:text-white bg-white/6 hover:bg-white/12 border border-white/8 transition-all"
-              aria-label="Ndrysho temën"
-            >
-              {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
           </div>
 

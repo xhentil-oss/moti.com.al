@@ -1,15 +1,12 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, Sun, Clock, Calendar, BookOpen, Map, MapPin } from "lucide-react";
+import { Home, MapPin, Info, Mail } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/", label: "Kryefaqja", icon: Home },
   { href: "/vendbanimet", label: "Vendbanimet", icon: MapPin },
-  { href: "/sot", label: "Sot", icon: Sun },
-  { href: "/ore-per-ore", label: "Orë për orë", icon: Clock },
-  { href: "/10-dite", label: "10 Ditë", icon: Calendar },
-  { href: "/harta", label: "Harta", icon: Map },
-  { href: "/blog", label: "Blog", icon: BookOpen },
+  { href: "/rreth-nesh", label: "Rreth nesh", icon: Info },
+  { href: "/kontakt", label: "Kontakt", icon: Mail },
 ];
 
 interface DesktopNavProps {

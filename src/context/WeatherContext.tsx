@@ -19,11 +19,8 @@ export function WeatherProvider({ children }: { children: React.ReactNode }) {
   const [loadingState, setLoadingState] = useState<AppState["loadingState"]>("idle");
   const [error, setError] = useState<string | null>(null);
   const [unit, setUnitState] = useState<"C" | "F">("C");
-  const prefersDark =
-    typeof window !== "undefined"
-      ? (localStorage.getItem("moti-theme") ?? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"))
-      : "dark";
-  const [theme, setThemeState] = useState<"dark" | "light">(prefersDark as "dark" | "light");
+  // Dark-only: dizajni (kartat navy) është dark; light-mode nuk mbështetet ende.
+  const [theme, setThemeState] = useState<"dark" | "light">("dark");
   const [currentLocation, setCurrentLocation] = useState<LocationInfo | null>(null);
   const [recentSearches, setRecentSearches] = useState<SearchResult[]>([]);
   const [showLocationPrompt, setShowLocationPrompt] = useState(true);
@@ -85,15 +82,9 @@ export function WeatherProvider({ children }: { children: React.ReactNode }) {
     setShowLocationPrompt(false);
   }, [loadWeather]);
 
-  // Sync .dark class on <html> whenever theme changes
+  // Dark-only: sigurohu që klasa .dark është gjithmonë e pranishme.
   useEffect(() => {
-    const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    localStorage.setItem("moti-theme", theme);
+    document.documentElement.classList.add("dark");
   }, [theme]);
 
   const setUnit = useCallback((u: "C" | "F") => setUnitState(u), []);

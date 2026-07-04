@@ -23,7 +23,7 @@ const RouteFallback = () => (
 const AppInner: React.FC = () => {
   const { theme } = useWeather();
   return (
-    <div className={`min-h-screen font-sans antialiased transition-colors duration-300 ${
+    <div className={`min-h-screen overflow-x-hidden font-sans antialiased transition-colors duration-300 ${
       theme === "dark"
         ? "bg-moti-navy text-white"
         : "bg-slate-50 text-slate-900"

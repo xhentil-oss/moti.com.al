@@ -33,7 +33,9 @@ export const PopularCities: React.FC<PopularCitiesProps> = ({ onSelectCity, curr
               >
                 <MapPin className={`w-3.5 h-3.5 flex-shrink-0 ${isActive ? "text-moti-sky" : "text-white/65 group-hover:text-moti-sky/60"}`} />
                 <span className="font-medium truncate">{city.nameAl}</span>
-                <span className="ml-auto text-[11px] text-white/65 flex-shrink-0">{city.region}</span>
+                {city.region && city.region !== city.nameAl && (
+                  <span className="ml-auto text-[11px] text-white/65 flex-shrink-0">{city.region}</span>
+                )}
               </button>
               <Link
                 to={`/vendbanim/${city.id}`}
