@@ -302,7 +302,7 @@ export const CityPage: React.FC = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_300px] gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
         {/* LEFT: main content */}
         <div className="space-y-5 min-w-0">
 
