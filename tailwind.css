@@ -78,7 +78,7 @@ html:not(.dark) footer {
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* safe area for iOS bottom nav */
-.safe-area-inset-bottom { padding-bottom: env(safe-area-inset-bottom, 8px); }
+.safe-area-inset-bottom { padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px)); }
 
 @tailwind base;
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Mail, Facebook, Instagram, Twitter, MapPin, ExternalLink } from "lucide-react";
 
 const FOOTER_LINKS = {
@@ -85,12 +86,12 @@ export const Footer: React.FC = () => {
               <ul className="space-y-2">
                 {links.map(({ label, href }) => (
                   <li key={label}>
-                    <a
-                      href={href}
-                      className="text-sm text-white/65 hover:text-white/80 transition-colors"
+                    <Link
+                      to={href}
+                      className="text-sm text-white/65 hover:text-white transition-colors"
                     >
                       {label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

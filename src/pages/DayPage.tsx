@@ -9,6 +9,7 @@ import { WeatherIcon } from "../components/WeatherIcon";
 import { useWeather } from "../context/WeatherContext";
 import { useSeo } from "../lib/seo";
 import type { LocationWeather, HourlyForecast, LocationInfo } from "../types/weather";
+import { countryLabel } from "../../shared/cityContent.js";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -264,7 +265,7 @@ export const DayPage: React.FC = () => {
       <div className="mb-6">
         <div className="flex items-center gap-2 text-moti-sky text-sm font-medium mb-1">
           <MapPin className="w-4 h-4" />
-          <span>{city.region}, {city.country}</span>
+          <span>{city.region}, {countryLabel(city.country)}</span>
         </div>
         <h1 className="text-2xl md:text-3xl font-display font-bold text-white leading-tight">
           Moti në {city.nameAl}

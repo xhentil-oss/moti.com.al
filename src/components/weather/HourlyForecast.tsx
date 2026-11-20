@@ -8,29 +8,32 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 interface HourlyForecastProps {
   hourly: HourlyForecastType[];
   unit: "C" | "F";
+  /** Qyteti për lidhjen te faqja e ditës; pa të kartat nuk janë të klikueshme. */
+  cityId?: string;
 }
 
-export const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly, unit }) => {
+export const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly, unit, cityId }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const { id } = useParams<{ id?: string }>();
+  const params = useParams<{ id?: string }>();
+  const id = cityId ?? params.id;
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
     scrollRef.current.scrollBy({ left: dir === "left" ? -220 : 220, behavior: "smooth" });
   };
 
-  const now = new Date();
+  const Tag = (id ? "button" : "div") as "button";
 
   return (
     <div className="animate-fade-up" style={{ animationDelay: "0.1s" }}>
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Orë për orë</h2>
         <div className="flex gap-1">
-          <button onClick={() => scroll("left")} className="p-1.5 rounded-lg bg-white/6 hover:bg-white/12 text-white/60 hover:text-white transition-all" aria-label="Lëviz majtas">
+          <button onClick={() => scroll("left")} className="p-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] text-white/60 hover:text-white transition-all" aria-label="Lëviz majtas">
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <button onClick={() => scroll("right")} className="p-1.5 rounded-lg bg-white/6 hover:bg-white/12 text-white/60 hover:text-white transition-all" aria-label="Lëviz djathtas">
+          <button onClick={() => scroll("right")} className="p-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] text-white/60 hover:text-white transition-all" aria-label="Lëviz djathtas">
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
@@ -48,19 +51,19 @@ export const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly, unit }) 
           const label = isNow ? "Tani" : `${String(hour).padStart(2, "0")}:00`;
 
           return (
-            <div
+            <Tag
               key={h.time}
-              onClick={() => {
-                if (id) {
-                  const dateStr = h.time.split("T")[0];
-                  navigate(`/vendbanim/${id}/dita/${dateStr}`);
-                }
-              }}
+              {...(id
+                ? {
+                    type: "button" as const,
+                    onClick: () => navigate(`/vendbanim/${id}/dita/${h.time.split("T")[0]}`),
+                    "aria-label": `${label}: ${formatTemp(h.temperature, unit)}, ${h.symbol.label}. Shiko ditën`,
+                  }
+                : {})}
               className={`min-w-[64px] flex-shrink-0 snap-start flex flex-col items-center gap-2 px-2.5 py-3.5 rounded-2xl border transition-all
-                ${id ? "cursor-pointer" : ""}
                 ${isNow
                   ? "bg-moti-sky/20 border-moti-sky/40 shadow-glow-sky"
-                  : "bg-white/[0.05] border-white/[0.07] hover:bg-white/[0.09] hover:border-moti-sky/30"
+                  : `bg-white/[0.05] border-white/[0.07] ${id ? "hover:bg-white/[0.09] hover:border-moti-sky/30" : ""}`
                 }`}
             >
               <span className={`text-xs font-semibold ${isNow ? "text-moti-sky" : "text-white/70"}`}>{label}</span>
@@ -69,7 +72,7 @@ export const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly, unit }) 
               {h.precipitationProbability > 20 && (
                 <span className="text-xs text-sky-400 font-medium">{h.precipitationProbability}%</span>
               )}
-            </div>
+            </Tag>
           );
         })}
       </div>

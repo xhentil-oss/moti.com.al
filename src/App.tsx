@@ -1,5 +1,5 @@
-import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { Suspense, lazy, useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { WeatherProvider, useWeather } from "./context/WeatherContext";
 import { Header } from "./sections/Header";
 import { Main } from "./sections/Main";
@@ -16,6 +16,15 @@ const RegionPage = lazy(() => import("./pages/RegionPage").then((m) => ({ defaul
 const InfoPage = lazy(() => import("./pages/InfoPage").then((m) => ({ default: m.InfoPage })));
 const AdminPage = lazy(() => import("./pages/AdminPage").then((m) => ({ default: m.AdminPage })));
 
+// Kthe faqen lart sa herë ndryshon rruga (React Router nuk e bën vetë).
+const ScrollToTop: React.FC = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
 const RouteFallback = () => (
   <div className="flex items-center justify-center py-24 text-white/70 text-sm">Duke ngarkuar…</div>
 );
@@ -31,6 +40,7 @@ const AppInner: React.FC = () => {
       <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:rounded-xl focus:bg-moti-sky focus:text-white focus:font-semibold">
         Kalo tek përmbajtja kryesore
       </a>
+      <ScrollToTop />
       <Header />
       <Suspense fallback={<RouteFallback />}>
         <Routes>

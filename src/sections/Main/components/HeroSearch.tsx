@@ -15,8 +15,8 @@ export const HeroSearch: React.FC<HeroSearchProps> = ({ onSelectCity, recentSear
     >
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-moti-sky/8 blur-[80px]" />
-        <div className="absolute bottom-0 right-1/4 w-64 h-64 rounded-full bg-moti-amber/6 blur-[60px]" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-moti-sky/[0.08] blur-[80px]" />
+        <div className="absolute bottom-0 right-1/4 w-64 h-64 rounded-full bg-moti-amber/[0.06] blur-[60px]" />
         {/* Subtle grid */}
         <div className="absolute inset-0 opacity-[0.03]" style={{
           backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)",

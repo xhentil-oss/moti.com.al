@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const HeaderLogo: React.FC = () => (
-  <a
-    href="/"
+  <Link
+    to="/"
     aria-label="Moti.com.al — kthehu në faqen kryesore"
     className="flex items-center gap-2.5 flex-shrink-0 group"
   >
@@ -15,5 +16,5 @@ export const HeaderLogo: React.FC = () => (
       </span>
       <span className="text-[9px] font-semibold text-white/65 uppercase tracking-[0.15em]">com.al</span>
     </div>
-  </a>
+  </Link>
 );

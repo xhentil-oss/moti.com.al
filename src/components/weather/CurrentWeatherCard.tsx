@@ -5,6 +5,7 @@ import { formatTemp, getWindDirection } from "../../lib/weatherSymbols";
 import { WeatherIcon } from "../WeatherIcon";
 import { StatTile } from "./StatTile";
 import { Badge } from "../ui/Badge";
+import { countryLabel } from "../../../shared/cityContent.js";
 
 interface CurrentWeatherCardProps {
   weather: LocationWeather;
@@ -24,7 +25,7 @@ export const CurrentWeatherCard: React.FC<CurrentWeatherCardProps> = ({ weather,
       {/* Ambient background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-8 -right-8 w-48 h-48 rounded-full bg-moti-sky/10 blur-3xl" />
-        <div className="absolute -bottom-4 -left-4 w-32 h-32 rounded-full bg-moti-amber/8 blur-2xl" />
+        <div className="absolute -bottom-4 -left-4 w-32 h-32 rounded-full bg-moti-amber/[0.08] blur-2xl" />
       </div>
 
       <div className="relative p-5 md:p-7">
@@ -33,9 +34,9 @@ export const CurrentWeatherCard: React.FC<CurrentWeatherCardProps> = ({ weather,
           <div>
             <div className="flex items-center gap-1.5 mb-0.5">
               <MapPin className="w-3.5 h-3.5 text-moti-sky" />
-              <span className="text-xs text-white/70 font-medium uppercase tracking-wider">{location.region}, {location.country}</span>
+              <span className="text-xs text-white/70 font-medium uppercase tracking-wider">{[location.region, countryLabel(location.country)].filter(Boolean).join(", ")}</span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-display font-bold text-white leading-tight">{location.nameAl}</h1>
+            <h2 className="text-2xl md:text-3xl font-display font-bold text-white leading-tight">{location.nameAl}</h2>
           </div>
           <div className="flex items-center gap-1.5 text-xs text-white/65">
             <RefreshCw className="w-3 h-3" />

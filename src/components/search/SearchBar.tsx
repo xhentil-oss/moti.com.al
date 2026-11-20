@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Search, X, MapPin, Clock, TrendingUp } from "lucide-react";
 import type { SearchResult } from "../../types/weather";
 import { useSearchLocations, usePopularCities } from "../../lib/albanianCities";
+import { countryLabel } from "../../../shared/cityContent.js";
 
 interface SearchBarProps {
   onSelect: (location: SearchResult) => void;
@@ -184,7 +185,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                       {city.nameAl}
                     </div>
                     <div className="text-xs text-white/65 mt-0.5">
-                      {city.region}, {city.country}
+                      {[city.region, countryLabel(city.country)].filter(Boolean).join(", ")}
                     </div>
                   </div>
                   {city.population && (

@@ -15,7 +15,7 @@ import { useSeo, SITE_URL } from "../../lib/seo";
 import type { SearchResult } from "../../types/weather";
 
 export const Main: React.FC = () => {
-  const { weather, loadingState, error, unit, loadWeather, addRecentSearch, recentSearches, currentLocation } = useWeather();
+  const { weather, loadingState, error, unit, loadWeather, addRecentSearch, recentSearches, currentCityId } = useWeather();
 
   useSeo({
     title: "Moti.com.al — Parashikimi i Motit për Shqipëri, Kosovë & Maqedoni",
@@ -32,17 +32,14 @@ export const Main: React.FC = () => {
     },
   });
 
-  // Load default city (Tirana) on mount
+  // Ngarko Tiranën vetëm herën e parë — mos e mbishkruaj vendndodhjen
+  // ose qytetin që përdoruesi ka parë tashmë kur kthehet te kryefaqja.
   useEffect(() => {
-    const tirana = getCityById("tirana")!;
-    loadWeather(tirana);
+    if (loadingState === "idle") loadWeather(getCityById("tirana")!);
   }, []);
 
-  const handleSelectCity = (city: SearchResult) => {
-    addRecentSearch(city);
-    loadWeather(city);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  // SearchBar navigon vetë te faqja e qytetit; këtu vetëm ruajmë kërkimin.
+  const handleSearchSelect = (city: SearchResult) => addRecentSearch(city);
 
   const isLoading = loadingState === "loading";
   const hasWeather = loadingState === "success" && weather;
@@ -50,7 +47,7 @@ export const Main: React.FC = () => {
   return (
     <main id="main-content" aria-label="Parashikimi i motit">
       {/* Hero */}
-      <HeroSearch onSelectCity={handleSelectCity} recentSearches={recentSearches} />
+      <HeroSearch onSelectCity={handleSearchSelect} recentSearches={recentSearches} />
 
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 pb-24 md:pb-12">
@@ -75,22 +72,19 @@ export const Main: React.FC = () => {
             {isLoading ? (
               <HourlyCardSkeleton />
             ) : hasWeather ? (
-              <HourlyForecast hourly={weather.hourly} unit={unit} />
+              <HourlyForecast hourly={weather.hourly} unit={unit} cityId={currentCityId ?? undefined} />
             ) : null}
 
             {/* 10-day forecast */}
             {hasWeather && (
-              <DailyForecast daily={weather.daily} unit={unit} />
+              <DailyForecast daily={weather.daily} unit={unit} cityId={currentCityId ?? undefined} />
             )}
           </div>
 
           {/* Right: sidebar */}
           <aside aria-label="Sidebar" className="space-y-5">
-            <PopularCities
-              onSelectCity={handleSelectCity}
-              currentCityId={currentLocation ? ALBANIAN_CITIES_ID_MAP[`${currentLocation.lat.toFixed(3)},${currentLocation.lon.toFixed(3)}`] : undefined}
-            />
-            <RegionHighlights onSelectCity={handleSelectCity} />
+            <PopularCities currentCityId={currentCityId ?? undefined} />
+            <RegionHighlights />
           </aside>
         </div>
 
@@ -102,13 +96,6 @@ export const Main: React.FC = () => {
     </main>
   );
 };
-
-// helper for city id resolution
-const ALBANIAN_CITIES_ID_MAP: Record<string, string> = {};
-import { ALBANIAN_CITIES } from "../../lib/albanianCities";
-ALBANIAN_CITIES.forEach((c) => {
-  ALBANIAN_CITIES_ID_MAP[`${c.lat.toFixed(3)},${c.lon.toFixed(3)}`] = c.id;
-});
 
 // ─── Error State ──────────────────────────────────────────────
 function ErrorState({ message, onRetry }: { message: string; onRetry: () => void }) {
