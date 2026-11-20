@@ -1,5 +1,24 @@
 # Deploy moti.com.al në VPS Ubuntu + MariaDB
 
+> **Shënim:** prodhimi aktual punon në **cPanel + Passenger** (shih [.cpanel.yml](../.cpanel.yml) dhe
+> [static/.htaccess](../static/.htaccess)): `dist/` commitohet dhe cPanel e kopjon te `public_html`.
+> Ky dokument përshkruan rrugën **alternative** me VPS (Nginx + systemd), për rastin kur kalohet
+> nga hosting-u i përbashkët në server të dedikuar. Seksioni "Deploy në cPanel" më poshtë përmbledh rrugën aktuale.
+
+## Deploy në cPanel (rruga aktuale)
+
+1. Lokalisht: `npm run build` → commit edhe `dist/` → `git push`.
+2. cPanel → **Git Version Control** → repo-ja → **Pull** dhe pastaj **Deploy HEAD Commit**.
+   Kjo kopjon `dist/` te `/home/moti/public_html` dhe prek `server/tmp/restart.txt` (rinis Passenger-in).
+3. Nëse ndryshoi backend-i: cPanel → **Setup Node.js App** → *Run NPM Install*, pastaj *Restart*.
+4. Variablat e mjedisit (`DB_*`, `JWT_SECRET`, `ADMIN_PASSWORD_HASH`, `MET_USER_AGENT`) vendosen te
+   **Setup Node.js App** ose te `server/.env`. `JWT_SECRET` duhet ≥ 32 karaktere, ndryshe login-i çaktivizohet.
+5. Verifiko: `curl https://moti.com.al/api/health` → `{"ok":true,"db":"up"}`.
+
+---
+
+# Rruga alternative: VPS
+
 Udhëzues hap-pas-hapi për të vënë në prodhim: **Nginx** (shërben frontend-in + reverse-proxy `/api`), **Node/Express** (API, si shërbim systemd), **MariaDB** (baza e të dhënave), **TLS falas** me Let's Encrypt.
 
 Arkitektura:

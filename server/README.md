@@ -27,7 +27,16 @@ Frontend-i në dev (`npm run dev` në rrënjë) i drejton `/api` te ky server p�
 | DELETE | `/api/locations/:id` | 🔒 | Fshi |
 | GET  | `/api/weather?lat=&lon=` | — | Proxy te MET Norway (locationforecast) |
 | GET  | `/api/metalerts?lat=&lon=` | — | Proxy te MET Norway (alerts) |
+| GET  | `/api/sitemap.xml` | — | Sitemap dinamik nga DB |
+| POST | `/api/overpass` | 🔒 | Proxy te Overpass (import vendbanimesh nga OSM) |
+| GET  | `/api/geocode?q=&countrycodes=&limit=` | 🔒 | Proxy te Nominatim (`limit` ≤ 50, max 50 kërkesa/min) |
 
 🔒 = kërkon header `Authorization: Bearer <token>`.
+
+Koordinatat e `/weather` dhe `/metalerts` rrumbullakohen në 2 shifra dhjetore (~1 km) dhe
+përgjigjet ruhen në cache në memorie (max 5000 hyrje, TTL sipas header-it `Expires` të MET).
+
+**Siguria:** `JWT_SECRET` (≥ 32 karaktere) është i detyrueshëm — pa të login-i çaktivizohet.
+Në prod përdor `ADMIN_PASSWORD_HASH`; fjalëkalimi i vjetër i paracaktuar refuzohet.
 
 Prodhimi: shih [../deploy/DEPLOY.md](../deploy/DEPLOY.md).

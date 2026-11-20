@@ -7,7 +7,7 @@ import {
   Sun, CloudRain, Snowflake, Cloud, CheckCircle2, XCircle, LogOut,
   Menu, X, ExternalLink, Copy, Zap, Bell, Check
 } from "lucide-react";
-import { useQuery, useMutation, login as apiLogin, clearToken, isAuthenticated } from "../lib/anima";
+import { useQuery, useMutation, login as apiLogin, clearToken, isAuthenticated, getToken } from "../lib/anima";
 import type { Location } from "../lib/anima";
 import { useSeo } from "../lib/seo";
 import { ALBANIAN_CITIES, POPULAR_CITIES } from "../lib/albanianCities";
@@ -16,14 +16,28 @@ import type { SearchResult } from "../types/weather";
 // ─── Backend helpers (Overpass + Nominatim përmes serverit tonë, pa CORS-proxy) ─
 const API_BASE: string = (import.meta as any).env?.VITE_API_BASE || "/api";
 
+// /overpass dhe /geocode kërkojnë token admin në backend.
+function adminAuthHeader(): Record<string, string> {
+  const t = getToken();
+  return t ? { Authorization: `Bearer ${t}` } : {};
+}
+
+function backendError(name: string, res: Response): Error {
+  if (res.status === 401) {
+    clearToken();
+    return new Error(`${name}: sesioni skadoi — hyni sërish`);
+  }
+  return new Error(`${name} ${res.status}`);
+}
+
 async function overpassViaBackend(query: string, signal?: AbortSignal): Promise<any> {
   const res = await fetch(`${API_BASE}/overpass`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...adminAuthHeader() },
     body: JSON.stringify({ query }),
     signal,
   });
-  if (!res.ok) throw new Error(`overpass ${res.status}`);
+  if (!res.ok) throw backendError("overpass", res);
   return res.json();
 }
 
@@ -34,8 +48,8 @@ async function geocodeViaBackend(
   const params = new URLSearchParams({ q });
   if (opts?.countrycodes) params.set("countrycodes", opts.countrycodes);
   if (opts?.limit) params.set("limit", String(opts.limit));
-  const res = await fetch(`${API_BASE}/geocode?${params.toString()}`);
-  if (!res.ok) throw new Error(`geocode ${res.status}`);
+  const res = await fetch(`${API_BASE}/geocode?${params.toString()}`, { headers: adminAuthHeader() });
+  if (!res.ok) throw backendError("geocode", res);
   return res.json();
 }
 

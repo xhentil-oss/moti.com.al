@@ -10,8 +10,11 @@ export function requireAuth(req, res, next) {
   if (!token) {
     return res.status(401).json({ error: "Mungon token-i i autentikimit" });
   }
+  if (!process.env.JWT_SECRET) {
+    return res.status(503).json({ error: "Autentikimi nuk është konfiguruar në server" });
+  }
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ["HS256"] });
     req.user = payload;
     next();
   } catch {

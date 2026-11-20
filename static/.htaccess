@@ -2,6 +2,11 @@
 # Kërkesat /api i lëmë të paprekura (Passenger / Node app i menaxhon).
 # Skedarët/dosjet reale shërbehen direkt; gjithçka tjetër → index.html.
 
+# Çaktivizo MultiViews (mbrojtje shtesë kundër negocimit të .html me PATH_INFO).
+<IfModule mod_negotiation.c>
+  Options -MultiViews
+</IfModule>
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
@@ -26,7 +31,15 @@
 
   # Faqet e para-renderuara (SSG): URL pa prapashtesë → .html nëse ekziston
   # p.sh. /vendbanim/tirana → /vendbanim/tirana.html (pa ridrejtim, URL mbetet e pastër)
-  RewriteCond %{REQUEST_FILENAME}.html -f
+  #
+  # KRITIKE: testojmë %{REQUEST_URI} (path-i i PLOTË i kërkuar), JO %{REQUEST_FILENAME}
+  # dhe JO $1. Në kontekst .htaccess (per-directory), Apache e ndan PATH_INFO edhe nga
+  # %{REQUEST_FILENAME} edhe nga $1 i pattern-it: për /vendbanim/kavaje/dita, $1 bëhet
+  # "vendbanim/kavaje" dhe "kavaje.html -f" del TRUE gabimisht → rishkrim i pafund → 500.
+  # %{REQUEST_URI} NUK ndahet nga PATH_INFO, kështu testi del TRUE vetëm kur ekziston
+  # faqja e saktë e plotë. Kushti !\.html$ e ndal rifutjen pas rishkrimit (kundër loop-it).
+  RewriteCond %{REQUEST_URI} !\.html$
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}.html -f
   RewriteRule ^(.+?)/?$ $1.html [L]
 
   # Ndryshe, ktheji te index.html (SPA fallback)
