@@ -15,6 +15,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { execFileSync } from "node:child_process";
+import { buildSitemapXml } from "./shared/sitemap.js";
 import { countryLabel, longDescription, faqs, climateType, bestTime, slugify, regionDescription,
   nearestHub, nearestPlaces, locationSentence, directionFrom, fmtKm } from "./shared/cityContent.js";
 
@@ -330,3 +331,10 @@ for (const city of cities) {
 }
 
 console.log(`✅ Prerender: ${count} faqe statike + kryefaqja`);
+
+// ─── sitemap.xml statik në rrënjë (Google e kërkon te /sitemap.xml, jo te /api) ──
+{
+  const sorted = [...allCities].sort((a, b) => (Number(b.population) || 0) - (Number(a.population) || 0));
+  writeFileSync(join(DIST, "sitemap.xml"), buildSitemapXml(sorted, SITE), "utf8");
+  console.log(`✅ sitemap.xml: ${sorted.length} vendbanime`);
+}

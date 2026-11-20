@@ -29,6 +29,10 @@
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
+  # Skedarët me prapashtesë (xml, txt, imazhe...) që NUK ekzistojnë → 404 i vërtetë,
+  # jo index.html me 200 (p.sh. /sitemap.xml që kthente HTML dhe Google e refuzonte).
+  RewriteRule \.(xml|txt|json|webmanifest|png|jpe?g|gif|svg|ico|webp|avif|js|css|map|woff2?)$ - [R=404,L]
+
   # Faqet e para-renderuara (SSG): URL pa prapashtesë → .html nëse ekziston
   # p.sh. /vendbanim/tirana → /vendbanim/tirana.html (pa ridrejtim, URL mbetet e pastër)
   #
