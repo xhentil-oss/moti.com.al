@@ -123,3 +123,82 @@ export function faqs(city) {
     },
   ];
 }
+
+// ─── Gjeografia: distanca, drejtimi, fqinjët (përmbajtje unike për çdo faqe) ──
+
+const R_KM = 6371;
+const rad = (d) => (d * Math.PI) / 180;
+
+/** Distanca në km (haversine). */
+export function distanceKm(a, b) {
+  const dLat = rad(b.lat - a.lat);
+  const dLon = rad(b.lon - a.lon);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon / 2) ** 2;
+  return 2 * R_KM * Math.asin(Math.sqrt(h));
+}
+
+const DIRECTIONS = ["veri", "verilindje", "lindje", "juglindje", "jug", "jugperëndim", "perëndim", "veriperëndim"];
+
+/** Drejtimi i `to` parë nga `from` (p.sh. "juglindje"). */
+export function directionFrom(from, to) {
+  const y = Math.sin(rad(to.lon - from.lon)) * Math.cos(rad(to.lat));
+  const x =
+    Math.cos(rad(from.lat)) * Math.sin(rad(to.lat)) -
+    Math.sin(rad(from.lat)) * Math.cos(rad(to.lat)) * Math.cos(rad(to.lon - from.lon));
+  const deg = ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
+  return DIRECTIONS[Math.round(deg / 45) % 8];
+}
+
+export const fmtKm = (km) => (km < 10 ? km.toFixed(1).replace(".", ",") : String(Math.round(km)));
+
+/** Kandidat për qendër urbane: ≥ 10 000 banorë ose i shënuar si popullor. */
+export const HUB_MIN_POP = 10000;
+const SUBURB_KM = 10; // brenda kësaj distance nga një qytet më i madh → lagje/periferi, jo qendër
+const CYRILLIC = /[Ѐ-ӿ]/;
+const pop = (c) => Number(c.population) || 0;
+
+const hubCache = new WeakMap();
+/**
+ * Qendrat urbane reale nga një listë vendbanimesh: kandidatët renditen sipas popullsisë
+ * dhe hidhet çdo kandidat që ndodhet < 10 km nga një qendër më e madh (p.sh. Kamëz, Kashar,
+ * Farkë → Tiranë). Emrat në cirilikë përjashtohen.
+ */
+export function buildHubs(all) {
+  if (hubCache.has(all)) return hubCache.get(all);
+  const candidates = all
+    .filter((c) => (c.isPopular || pop(c) >= HUB_MIN_POP) && !CYRILLIC.test(c.nameAl || ""))
+    .sort((a, b) => pop(b) - pop(a));
+  const hubs = [];
+  for (const c of candidates) {
+    if (!hubs.some((h) => distanceKm(h, c) < SUBURB_KM)) hubs.push(c);
+  }
+  hubCache.set(all, hubs);
+  return hubs;
+}
+
+/** Qyteti kryesor më i afërt (jo vetvetja). Kthen { city, km, dir } ose null nëse vetë është qendër. */
+export function nearestHub(city, all) {
+  const hubs = buildHubs(all);
+  if (hubs.some((h) => h.id === city.id)) return null;
+  let best = null;
+  for (const c of hubs) {
+    const km = distanceKm(city, c);
+    if (!best || km < best.km) best = { city: c, km };
+  }
+  return best ? { ...best, dir: directionFrom(best.city, city) } : null;
+}
+
+/** N vendbanimet më të afërta, me distancë. */
+export function nearestPlaces(city, all, n = 10) {
+  return all
+    .filter((c) => c.id !== city.id && Number.isFinite(c.lat) && Number.isFinite(c.lon))
+    .map((c) => ({ city: c, km: distanceKm(city, c) }))
+    .sort((a, b) => a.km - b.km)
+    .slice(0, n);
+}
+
+/** Fjali unike për vendndodhjen ("X ndodhet rreth 12 km në juglindje të qytetit Y"). */
+export function locationSentence(city, hub) {
+  if (!hub) return "";
+  return `${city.nameAl} ndodhet rreth ${fmtKm(hub.km)} km në ${hub.dir} të qytetit ${hub.city.nameAl}, qendra urbane më e afërt.`;
+}

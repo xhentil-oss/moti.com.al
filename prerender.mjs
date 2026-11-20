@@ -15,7 +15,8 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { execFileSync } from "node:child_process";
-import { countryLabel, longDescription, faqs, climateType, bestTime, slugify, regionDescription } from "./shared/cityContent.js";
+import { countryLabel, longDescription, faqs, climateType, bestTime, slugify, regionDescription,
+  nearestHub, nearestPlaces, locationSentence, directionFrom, fmtKm } from "./shared/cityContent.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST = join(__dirname, "dist");
@@ -55,10 +56,10 @@ async function loadCities() {
 
 const allCities = await loadCities();
 
-// Para-rendero vetëm vendet me popullsi reale (cilësi mbi sasi; parandalon "thin content").
-// Fshatrat pa popullsi mbeten në sitemap + CSR — prapë të indeksueshëm.
-// Ndrysho pragun me PRERENDER_MIN_POP (0 = të gjitha).
-const MIN_POP = Number(process.env.PRERENDER_MIN_POP ?? 1000);
+// Para-rendero TË GJITHA vendbanimet (default) — çdo faqe merr përmbajtje unike nga
+// gjeografia (qyteti më i afërt + distanca/drejtimi + fqinjët me km), jo vetëm nga arketipi.
+// Për të kufizuar përkohësisht: PRERENDER_MIN_POP=<numër>.
+const MIN_POP = Number(process.env.PRERENDER_MIN_POP ?? 0);
 const cities = allCities.filter((c) => c.isPopular || (Number(c.population) || 0) >= MIN_POP);
 console.log(`Prerender: ${cities.length} / ${allCities.length} vendbanime (prag popullsie ≥ ${MIN_POP})`);
 
@@ -115,10 +116,9 @@ function cityBody(city, others) {
     ["Gjatësia gjeografike", `${city.lon.toFixed(4)}° L`],
     ...(city.population ? [["Popullsia", `~${city.population.toLocaleString("sq-AL")} banorë`]] : []),
   ];
-  const nearby = others
-    .filter((o) => o.region === city.region && o.id !== city.id)
-    .concat(others.filter((o) => o.region !== city.region))
-    .slice(0, 8);
+  const hub = nearestHub(city, others);
+  const nearby = nearestPlaces(city, others, 10);
+  if (hub) facts.push(["Qyteti më i afërt", `${hub.city.nameAl} (~${fmtKm(hub.km)} km)`]);
 
   return `
     <nav aria-label="Shtegu i navigimit" style="font-size:13px;opacity:.7;margin-bottom:14px">
@@ -127,7 +127,7 @@ function cityBody(city, others) {
       <span>${esc(city.nameAl)}</span>
     </nav>
     <h1 style="font-size:28px;font-weight:800;margin:0 0 10px">Moti në ${esc(city.nameAl)} — parashikimi 10-ditor dhe orar</h1>
-    <p style="opacity:.85;line-height:1.6;max-width:72ch">${esc(longDescription(city))}</p>
+    <p style="opacity:.85;line-height:1.6;max-width:72ch">${esc([locationSentence(city, hub), longDescription(city)].filter(Boolean).join(" "))}</p>
     <p style="opacity:.6;margin-top:10px">⏳ Duke ngarkuar motin live nga MET/Yr…</p>
 
     <h2 style="font-size:20px;font-weight:700;margin:24px 0 10px">Të dhëna klimatike për ${esc(city.nameAl)}</h2>
@@ -146,8 +146,10 @@ function cityBody(city, others) {
       )
       .join("")}
 
-    <h2 style="font-size:20px;font-weight:700;margin:24px 0 10px">Qytete të tjera në ${esc(city.region)} e më gjerë</h2>
-    <p>${nearby.map((o) => `<a href="/vendbanim/${esc(o.id)}" style="color:#7fb4f5;margin-right:14px;display:inline-block">${esc(o.nameAl)}</a>`).join("")}</p>
+    <h2 style="font-size:20px;font-weight:700;margin:24px 0 10px">Moti në vendbanimet afër ${esc(city.nameAl)}</h2>
+    <ul style="list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px">
+      ${nearby.map(({ city: o, km }) => `<li><a href="/vendbanim/${esc(o.id)}" style="color:#7fb4f5">Moti në ${esc(o.nameAl)}</a> <span style="opacity:.6;font-size:13px">· ${fmtKm(km)} km ${esc(directionFrom(city, o))}</span></li>`).join("")}
+    </ul>
   `;
 }
 
@@ -189,17 +191,21 @@ function cityJsonLd(city) {
 }
 
 // ─── Gjenero faqet e qyteteve ────────────────────────────────────────────────
+const hubNote = (city) => {
+  const h = nearestHub(city, allCities);
+  return h ? ` (pranë ${h.city.nameAl})` : "";
+};
 let count = 0;
 for (const city of cities) {
   const canonical = `${SITE}/vendbanim/${city.id}`;
   let html = setHead(template, {
     title: `Moti në ${city.nameAl} — Parashikimi 10-ditor & orar | Moti.com.al`,
-    description: `Parashikimi i motit për ${city.nameAl}, ${city.region}: temperatura, reshjet, era, orë-pas-ore dhe 10-ditor. Klimë ${climateType(city).toLowerCase()}. Të dhëna live nga MET/Yr.`,
+    description: `Parashikimi i motit për ${city.nameAl}${hubNote(city)}, ${city.region}: temperatura, reshjet, era, orë-pas-ore dhe 10-ditor. Klimë ${climateType(city).toLowerCase()}. Të dhëna live nga MET/Yr.`,
     canonical,
     ogType: "article",
   });
   html = injectJsonLd(html, cityJsonLd(city));
-  html = injectBody(html, cityBody(city, cities));
+  html = injectBody(html, cityBody(city, allCities));
   write(`vendbanim/${city.id}.html`, html);
   count++;
 }

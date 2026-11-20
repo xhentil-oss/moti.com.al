@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { MapPin, ChevronRight, AlertCircle, ArrowLeft, Thermometer, Droplets, Wind, Eye, Gauge, Sun } from "lucide-react";
+import { MapPin, ChevronRight, AlertCircle, ArrowLeft, Thermometer, Droplets, Eye, CloudRain, Compass, Clock } from "lucide-react";
 import { getCityById, ALBANIAN_CITIES } from "../lib/albanianCities";
 import { fetchYrForecast, adaptYrResponse, generateMockWeather } from "../lib/yrApi";
 import { formatTemp, getWindDirection } from "../lib/weatherSymbols";
@@ -12,7 +12,11 @@ import { WeatherCardSkeleton, HourlyCardSkeleton } from "../components/ui/Skelet
 import { useWeather } from "../context/WeatherContext";
 import { WeatherScene } from "../components/WeatherScene";
 import { useSeo } from "../lib/seo";
-import { longDescription, faqs as cityFaqs, bestTime, climateType } from "../../shared/cityContent.js";
+import {
+  longDescription, faqs as cityFaqs, bestTime, climateType,
+  nearestHub, nearestPlaces, locationSentence, directionFrom, fmtKm, HUB_MIN_POP, countryLabel,
+} from "../../shared/cityContent.js";
+import { useQuery } from "../lib/anima";
 import type { LocationWeather, LocationInfo } from "../types/weather";
 
 // ─── JSON-LD helpers ──────────────────────────────────────────────────────────
@@ -73,21 +77,56 @@ function Breadcrumbs({ cityName }: { cityName: string }) {
 
 // ─── Nearby cities sidebar card ───────────────────────────────────────────────
 
-function NearbyCities({ currentId }: { currentId: string }) {
-  const nearby = ALBANIAN_CITIES.filter((c) => c.id !== currentId).slice(0, 8);
+type GeoCity = { id: string; nameAl: string; lat: number; lon: number; population?: number; isPopular?: boolean };
+
+/**
+ * Vendbanimet rreth qytetit + qendrat urbane, nga DB (me fallback te lista statike).
+ * E njëjta logjikë si te prerender.mjs, që përmbajtja SSG dhe ajo React të përputhen.
+ */
+function useGeoContext(city: GeoCity | undefined) {
+  // Thirret para çdo return-i të hershëm (rregullat e hook-eve); pa qytet → query bosh.
+  const { data: around } = useQuery<GeoCity>(
+    "Location",
+    city
+      ? {
+          where: {
+            lat: { gte: city.lat - 0.35, lte: city.lat + 0.35 },
+            lon: { gte: city.lon - 0.45, lte: city.lon + 0.45 },
+          },
+          limit: 400,
+        }
+      : { where: { id: "__asnje__" }, limit: 1 }
+  );
+  const { data: hubs } = useQuery<GeoCity>("Location", {
+    where: { OR: [{ population: { gte: HUB_MIN_POP } }, { isPopular: true }] },
+    limit: 1000,
+  });
+  const pool = React.useMemo(() => {
+    const m = new Map<string, GeoCity>();
+    for (const c of [...ALBANIAN_CITIES, ...(hubs || []), ...(around || [])] as GeoCity[]) m.set(c.id, c);
+    return [...m.values()];
+  }, [around, hubs]);
+  return React.useMemo(
+    () => (city ? { hub: nearestHub(city, pool), nearby: nearestPlaces(city, pool, 10) } : { hub: null, nearby: [] }),
+    [city?.id, city?.lat, city?.lon, pool]
+  );
+}
+
+function NearbyCities({ city, nearby }: { city: GeoCity; nearby: { city: GeoCity; km: number }[] }) {
   return (
     <div className="rounded-2xl bg-moti-navy-mid border border-white/[0.07] p-4 shadow-card">
-      <h3 className="text-sm font-semibold text-white/70 mb-3 uppercase tracking-wide">Qytete të tjera</h3>
+      <h3 className="text-sm font-semibold text-white/70 mb-3 uppercase tracking-wide">Vendbanime afër {city.nameAl}</h3>
       <div className="space-y-1">
-        {nearby.map((city) => (
+        {nearby.map(({ city: c, km }) => (
           <Link
-            key={city.id}
-            to={`/vendbanim/${city.id}`}
+            key={c.id}
+            to={`/vendbanim/${c.id}`}
+            title={`Moti në ${c.nameAl}`}
             className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm text-white/70 hover:text-white hover:bg-white/[0.07] transition-all group"
           >
             <MapPin className="w-3.5 h-3.5 text-moti-sky/70 group-hover:text-moti-sky flex-shrink-0" />
-            <span className="font-medium">{city.nameAl}</span>
-            <span className="ml-auto text-white/65 text-xs">{city.country === "Albania" ? "AL" : city.country === "Kosovo" ? "XK" : "MK"}</span>
+            <span className="font-medium min-w-0 truncate">{c.nameAl}</span>
+            <span className="ml-auto text-white/65 text-xs whitespace-nowrap">{fmtKm(km)} km {directionFrom(city, c)}</span>
           </Link>
         ))}
       </div>
@@ -97,8 +136,8 @@ function NearbyCities({ currentId }: { currentId: string }) {
 
 // ─── SEO editorial block per city ────────────────────────────────────────────
 
-function CitySEOBlock({ city }: { city: NonNullable<ReturnType<typeof getCityById>> }) {
-  const countryLabel = city.country === "Albania" ? "Shqipëri" : city.country === "Kosovo" ? "Kosovë" : "Maqedoni e Veriut";
+function CitySEOBlock({ city, hub }: { city: NonNullable<ReturnType<typeof getCityById>>; hub: ReturnType<typeof nearestHub> }) {
+  const countryName = countryLabel(city.country);
   const regionInfo: Record<string, string> = {
     tirana: "Tirana është kryeqyteti dhe qyteti më i madh i Shqipërisë, me klimë mesdhetare kontinentale. Verët janë të nxehta dhe të thata, ndërsa dimrat janë të butë dhe me reshje.",
     durres: "Durrësi është porti kryesor i Shqipërisë dhe qyteti i dytë më i madh. Gjendet buzë detit Adriatik, me klimë mesdhetare dhe verë të gjata të nxehta.",
@@ -108,7 +147,7 @@ function CitySEOBlock({ city }: { city: NonNullable<ReturnType<typeof getCityByI
     gjirokaster: "Gjirokastra është qytet-muze i listuar si Trashëgimi Botërore e UNESCO-s. Gjendet në lartësi malore me klimë kontinentale mesdhetare.",
     pristina: "Prishtina është kryeqyteti i Kosovës, me klimë kontinentale. Verët janë të nxehta dhe dimrat të ftohtë me dëborë të mundshme.",
   };
-  const description = regionInfo[city.id] || longDescription(city);
+  const description = regionInfo[city.id] || [locationSentence(city, hub), longDescription(city)].filter(Boolean).join(" ");
 
   return (
     <section aria-labelledby="city-seo-title" className="rounded-2xl bg-moti-navy-mid border border-white/[0.07] p-5 md:p-6 shadow-card mt-5">
@@ -123,7 +162,7 @@ function CitySEOBlock({ city }: { city: NonNullable<ReturnType<typeof getCityByI
         </div>
         <div className="flex items-start gap-2">
           <span className="text-moti-sky font-semibold min-w-[80px]">Shteti:</span>
-          <span className="text-white/70">{countryLabel}</span>
+          <span className="text-white/70">{countryName}</span>
         </div>
         <div className="flex items-start gap-2">
           <span className="text-moti-sky font-semibold min-w-[80px]">Klima:</span>
@@ -137,6 +176,12 @@ function CitySEOBlock({ city }: { city: NonNullable<ReturnType<typeof getCityByI
           <span className="text-moti-sky font-semibold min-w-[80px]">Gjatësia:</span>
           <span className="text-white/70">{city.lon.toFixed(4)}° L</span>
         </div>
+        {hub && (
+          <div className="flex items-start gap-2">
+            <span className="text-moti-sky font-semibold min-w-[80px]">Qyteti më i afërt:</span>
+            <span className="text-white/70">{hub.city.nameAl} (~{fmtKm(hub.km)} km)</span>
+          </div>
+        )}
         {city.population && (
           <div className="flex items-start gap-2">
             <span className="text-moti-sky font-semibold min-w-[80px]">Popullsia:</span>
@@ -179,6 +224,7 @@ export const CityPage: React.FC = () => {
   const [dbCity, setDbCity] = useState<ReturnType<typeof getCityById>>(undefined);
   const [resolving, setResolving] = useState<boolean>(!staticCity && !!id);
   const city = staticCity || dbCity;
+  const geo = useGeoContext(city);
 
   useEffect(() => {
     if (staticCity || !id) {
@@ -226,6 +272,7 @@ export const CityPage: React.FC = () => {
   useEffect(() => {
     if (!city) return;
     setLoading(true);
+    setWeather(null); // mos shfaq të dhënat e qytetit të mëparshëm gjatë ngarkimit
     const locInfo: LocationInfo = {
       name: city.name,
       nameAl: city.nameAl,
@@ -280,7 +327,7 @@ export const CityPage: React.FC = () => {
 
       {/* Back button (mobile) */}
       <button
-        onClick={() => navigate(-1)}
+        onClick={() => (window.history.state?.idx > 0 ? navigate(-1) : navigate("/vendbanimet"))}
         className="flex items-center gap-1.5 text-sm text-white/70 hover:text-white mb-4 transition-colors md:hidden"
         aria-label="Kthehu mbrapa"
       >
@@ -292,7 +339,7 @@ export const CityPage: React.FC = () => {
       <div className="mb-6">
         <div className="flex items-center gap-2 text-moti-sky text-sm font-medium mb-1">
           <MapPin className="w-4 h-4" />
-          <span>{city.region}, {city.country}</span>
+          <span>{city.region}, {countryLabel(city.country)}</span>
         </div>
         <h1 className="text-3xl md:text-4xl font-display font-bold text-white leading-tight">
           Moti në {city.nameAl}
@@ -318,7 +365,7 @@ export const CityPage: React.FC = () => {
               />
               <div className="absolute inset-0 pointer-events-none z-[1]">
                 <div className="absolute -top-8 -right-8 w-48 h-48 rounded-full bg-moti-sky/10 blur-3xl" />
-                <div className="absolute -bottom-4 -left-4 w-32 h-32 rounded-full bg-moti-amber/8 blur-2xl" />
+                <div className="absolute -bottom-4 -left-4 w-32 h-32 rounded-full bg-moti-amber/[0.08] blur-2xl" />
               </div>
               <div className="relative p-5 md:p-7 z-[2]">
                 <div className="flex items-center justify-between mb-4">
@@ -348,13 +395,13 @@ export const CityPage: React.FC = () => {
           ) : null}
 
           {/* Hourly */}
-          {loading ? <HourlyCardSkeleton /> : weather ? <HourlyForecast hourly={weather.hourly} unit={unit} /> : null}
+          {loading ? <HourlyCardSkeleton /> : weather ? <HourlyForecast hourly={weather.hourly} unit={unit} cityId={city.id} /> : null}
 
           {/* Daily */}
-          {weather && <DailyForecast daily={weather.daily} unit={unit} cityId={city.id} />}
+          {!loading && weather && <DailyForecast daily={weather.daily} unit={unit} cityId={city.id} />}
 
           {/* SEO editorial content */}
-          {city && <CitySEOBlock city={city} />}
+          {city && <CitySEOBlock city={city} hub={geo.hub} />}
         </div>
 
         {/* RIGHT: sidebar */}
@@ -362,15 +409,23 @@ export const CityPage: React.FC = () => {
           {/* Quick stats card */}
           {weather && (
             <div className="rounded-2xl bg-moti-navy-mid border border-white/[0.07] p-4 shadow-card animate-fade-up">
-              <h3 className="text-sm font-semibold text-white/70 mb-3 uppercase tracking-wide">Të dhëna tani</h3>
+              <h3 className="text-sm font-semibold text-white/70 mb-3 uppercase tracking-wide">Më shumë detaje</h3>
               <div className="grid grid-cols-2 gap-2">
                 {[
-                  { icon: <Thermometer className="w-3.5 h-3.5" />, label: "Temperatura", value: formatTemp(weather.current.temperature, unit) },
-                  { icon: <Droplets className="w-3.5 h-3.5" />, label: "Lagështia", value: `${weather.current.humidity}%` },
-                  { icon: <Wind className="w-3.5 h-3.5" />, label: "Era", value: `${weather.current.windSpeed} km/h` },
+                  {
+                    icon: <Thermometer className="w-3.5 h-3.5" />,
+                    label: "Min / Maks sot",
+                    value: weather.daily[0] ? `${formatTemp(weather.daily[0].tempMin, unit)} / ${formatTemp(weather.daily[0].tempMax, unit)}` : "—",
+                  },
+                  { icon: <Droplets className="w-3.5 h-3.5" />, label: "Pika e vesës", value: `${weather.current.dewPoint}°` },
+                  { icon: <CloudRain className="w-3.5 h-3.5" />, label: "Reshjet", value: `${weather.current.precipitation} mm` },
                   { icon: <Eye className="w-3.5 h-3.5" />, label: "Dukshmëria", value: `${weather.current.visibility} km` },
-                  { icon: <Gauge className="w-3.5 h-3.5" />, label: "Presioni", value: `${weather.current.pressure}` },
-                  { icon: <Sun className="w-3.5 h-3.5" />, label: "UV", value: String(weather.current.uvIndex) },
+                  { icon: <Compass className="w-3.5 h-3.5" />, label: "Drejtimi i erës", value: getWindDirection(weather.current.windDirection) },
+                  {
+                    icon: <Clock className="w-3.5 h-3.5" />,
+                    label: "Përditësuar",
+                    value: new Date(weather.current.updatedAt).toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit" }),
+                  },
                 ].map(({ icon, label, value }) => (
                   <div key={label} className="flex flex-col gap-0.5 px-2.5 py-2 rounded-xl bg-white/[0.04] border border-white/[0.05]">
                     <div className="flex items-center gap-1 text-moti-sky">{icon}<span className="text-[10px] text-white/65 uppercase tracking-wide">{label}</span></div>
@@ -382,7 +437,7 @@ export const CityPage: React.FC = () => {
           )}
 
           {/* Nearby cities */}
-          <NearbyCities currentId={city.id} />
+          <NearbyCities city={city} nearby={geo.nearby} />
         </aside>
       </div>
     </main>
