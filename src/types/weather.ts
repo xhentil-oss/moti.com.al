@@ -15,13 +15,16 @@ export interface HourlyForecast {
   time: string; // ISO-8601
   temperature: number;
   feelsLike: number;
-  precipitation: number;
-  precipitationProbability: number;
+  precipitation: number; // mm për periudhën (1 orë ose 6 orë, shih stepHours)
+  /** Mundësia në %. MET s'e jep për Ballkanin → zakonisht null (mos e shfaq si 0%). */
+  precipitationProbability: number | null;
   windSpeed: number;
   windDirection: number;
   humidity: number;
   uvIndex: number;
   symbol: WeatherSymbol;
+  /** 1 = pikë orare; 6 = pikë 6-orëshe (MET pas ~60 orëve). */
+  stepHours?: number;
 }
 
 export interface DailyForecast {
@@ -29,8 +32,8 @@ export interface DailyForecast {
   dayLabel: string;
   tempMax: number;
   tempMin: number;
-  precipitation: number;
-  precipitationProbability: number;
+  precipitation: number; // mm gjithsej për ditën (sipas orës së Tiranës)
+  precipitationProbability: number | null;
   windSpeed: number;
   symbol: WeatherSymbol;
   sunrise?: string;
@@ -55,7 +58,9 @@ export interface CurrentWeather {
 export interface LocationWeather {
   location: LocationInfo;
   current: CurrentWeather;
-  hourly: HourlyForecast[];
+  hourly: HourlyForecast[]; // 48 orët e para
+  /** Të gjitha pikat e MET (orare, pastaj 6-orëshe) — për faqet e ditëve. */
+  timeline?: HourlyForecast[];
   daily: DailyForecast[];
   alerts: WeatherAlert[];
 }

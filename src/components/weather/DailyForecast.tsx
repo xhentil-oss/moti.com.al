@@ -1,7 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import type { DailyForecast as DailyForecastType } from "../../types/weather";
 import { formatTemp } from "../../lib/weatherSymbols";
+import { formatMm, formatDateSq } from "../../lib/timeTirane";
 import { WeatherIcon } from "../WeatherIcon";
 import { Droplets, ChevronRight } from "lucide-react";
 
@@ -25,18 +26,14 @@ function TempBar({ min, max, absMin, absMax }: { min: number; max: number; absMi
   );
 }
 
-export const DailyForecast: React.FC<DailyForecastProps> = ({ daily, unit, cityId }) => {
-  const navigate = useNavigate();
+/** <a href> i vërtetë kur ka qytet (Google i ndjek faqet e ditëve), përndryshe <div>. */
+function RowWrap({ to, children, ...rest }: { to?: string; title?: string; className?: string; children: React.ReactNode }) {
+  return to ? <Link to={to} {...rest}>{children}</Link> : <div className={rest.className}>{children}</div>;
+}
 
-  const Row = (cityId ? "button" : "div") as "button";
+export const DailyForecast: React.FC<DailyForecastProps> = ({ daily, unit, cityId }) => {
   const absMin = Math.min(...daily.map((d) => d.tempMin));
   const absMax = Math.max(...daily.map((d) => d.tempMax));
-
-  const handleDayClick = (day: DailyForecastType) => {
-    if (cityId) {
-      navigate(`/vendbanim/${cityId}/dita/${day.date}`);
-    }
-  };
 
   return (
     <div className="animate-fade-up" style={{ animationDelay: "0.2s" }}>
@@ -44,11 +41,10 @@ export const DailyForecast: React.FC<DailyForecastProps> = ({ daily, unit, cityI
 
       <div className="rounded-2xl bg-moti-navy-mid border border-white/[0.07] overflow-hidden divide-y divide-white/[0.05]">
         {daily.map((day, i) => (
-          <Row
+          <RowWrap
             key={day.date}
-            {...(cityId
-              ? { type: "button" as const, onClick: () => handleDayClick(day), "aria-label": `Shiko parashikimin për ${day.dayLabel}` }
-              : {})}
+            to={cityId ? `/vendbanim/${cityId}/dita/${day.date}` : undefined}
+            title={`Moti më ${formatDateSq(day.date)}`}
             className={`w-full flex items-center gap-3 px-4 py-3.5 transition-all text-left group ${cityId ? "hover:bg-white/[0.05]" : ""}`}
           >
             <span className={`text-sm font-semibold w-20 flex-shrink-0 ${i === 0 ? "text-moti-sky" : "text-white/80"}`}>
@@ -60,11 +56,11 @@ export const DailyForecast: React.FC<DailyForecastProps> = ({ daily, unit, cityI
             </div>
 
             {/* Kolona mbetet gjithmonë, që rreshtat të jenë të rreshtuar */}
-            <div className="flex items-center gap-1 w-12 flex-shrink-0">
-              {day.precipitationProbability > 0 && (
+            <div className="flex items-center gap-1 w-16 flex-shrink-0">
+              {day.precipitation >= 0.1 && (
                 <>
-                  <Droplets className="w-3 h-3 text-sky-400" />
-                  <span className="text-xs text-sky-400">{day.precipitationProbability}%</span>
+                  <Droplets className="w-3 h-3 text-sky-400 flex-shrink-0" />
+                  <span className="text-xs text-sky-400 whitespace-nowrap">{formatMm(day.precipitation)}</span>
                 </>
               )}
             </div>
@@ -76,7 +72,7 @@ export const DailyForecast: React.FC<DailyForecastProps> = ({ daily, unit, cityI
             {cityId && (
               <ChevronRight className="w-3.5 h-3.5 text-white/60 group-hover:text-moti-sky/60 flex-shrink-0 transition-colors" />
             )}
-          </Row>
+          </RowWrap>
         ))}
       </div>
     </div>

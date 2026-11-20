@@ -23,6 +23,7 @@ import type {
   MetAlertsFeature,
 } from "../types/weather";
 import { getWeatherSymbol } from "./weatherSymbols";
+import { tiraneDate, tiraneHour, dayLabelSq, todayTirane, addDays } from "./timeTirane";
 
 /**
  * In Sandpack (browser-only bundler) the Vite server proxy is NOT available.
@@ -346,13 +347,11 @@ export function generateMockWeather(location: LocationInfo): LocationWeather {
   });
 
   const daily: DailyForecast[] = Array.from({ length: 10 }, (_, i) => {
-    const d = new Date(now);
-    d.setDate(now.getDate() + i);
-    const dayNames = ["E Diel", "E Hënë", "E Martë", "E Mërkurë", "E Enjte", "E Premte", "E Shtunë"];
+    const date = addDays(todayTirane(), i);
     const codes = ["clearsky_day", "partlycloudy_day", "rain", "cloudy", "fair_day", "lightrain", "clearsky_day", "partlycloudy_day", "rain", "clearsky_day"];
     return {
-      date: d.toISOString().split("T")[0],
-      dayLabel: i === 0 ? "Sot" : i === 1 ? "Nesër" : dayNames[d.getDay()],
+      date,
+      dayLabel: dayLabelSq(date),
       tempMax: baseTemp + 4 + Math.round(Math.sin(i * 1.2) * 4),
       tempMin: baseTemp - 4 + Math.round(Math.sin(i * 0.8) * 3),
       precipitation: codes[i].includes("rain") ? 4 : 0,
@@ -386,116 +385,103 @@ export function generateMockWeather(location: LocationInfo): LocationWeather {
   };
 }
 
+function toPoint(s: YrTimeseries): HourlyForecast {
+  const det = s.data.instant.details;
+  const n1 = s.data.next_1_hours;
+  const n6 = s.data.next_6_hours;
+  const air = det.air_temperature ?? 0;
+  return {
+    time: s.time,
+    temperature: Math.round(air),
+    feelsLike: Math.round(air - 2),
+    // Pikat orare kanë next_1_hours; ato 6-orëshe (pas ~60 orëve) vetëm next_6_hours.
+    precipitation: n1 ? n1.details.precipitation_amount ?? 0 : n6?.details.precipitation_amount ?? 0,
+    // MET e jep probabilitetin vetëm për zonat nordike — për ne zakonisht mungon.
+    precipitationProbability: n1?.details.probability_of_precipitation ?? n6?.details.probability_of_precipitation ?? null,
+    windSpeed: Math.round((det.wind_speed ?? 0) * 3.6), // m/s → km/h
+    windDirection: Math.round(det.wind_from_direction ?? 0),
+    humidity: Math.round(det.relative_humidity ?? 0),
+    uvIndex: Math.round(det.ultraviolet_index_clear_sky ?? 0),
+    // Kodet e MET kanë variantet _day/_night/_polartwilight sipas diellit real.
+    symbol: getWeatherSymbol(n1?.summary.symbol_code ?? n6?.summary.symbol_code ?? "cloudy"),
+    stepHours: n1 ? 1 : 6,
+  };
+}
+
 export function adaptYrResponse(data: YrForecastResponse, location: LocationInfo): LocationWeather {
   const series = data.properties.timeseries;
   const now = series[0];
+  const nowDet = now.data.instant.details;
 
   const current: CurrentWeather = {
-    temperature: Math.round(now.data.instant.details.air_temperature ?? 0),
-    feelsLike: Math.round(now.data.instant.details.air_temperature ?? 0) - 2,
-    humidity: Math.round(now.data.instant.details.relative_humidity ?? 0),
-    windSpeed: Math.round((now.data.instant.details.wind_speed ?? 0) * 3.6), // m/s → km/h
-    windDirection: Math.round(now.data.instant.details.wind_from_direction ?? 0),
+    temperature: Math.round(nowDet.air_temperature ?? 0),
+    feelsLike: Math.round(nowDet.air_temperature ?? 0) - 2,
+    humidity: Math.round(nowDet.relative_humidity ?? 0),
+    windSpeed: Math.round((nowDet.wind_speed ?? 0) * 3.6), // m/s → km/h
+    windDirection: Math.round(nowDet.wind_from_direction ?? 0),
     precipitation: now.data.next_1_hours?.details.precipitation_amount ?? 0,
-    uvIndex: Math.round(now.data.instant.details.ultraviolet_index_clear_sky ?? 0),
+    uvIndex: Math.round(nowDet.ultraviolet_index_clear_sky ?? 0),
     visibility: 10,
-    pressure: Math.round(now.data.instant.details.air_pressure_at_sea_level ?? 1013),
-    dewPoint: Math.round(now.data.instant.details.dew_point_temperature ?? 0),
-    symbol: getWeatherSymbol(now.data.next_1_hours?.summary.symbol_code ?? "clearsky_day"),
+    pressure: Math.round(nowDet.air_pressure_at_sea_level ?? 1013),
+    dewPoint: Math.round(nowDet.dew_point_temperature ?? 0),
+    symbol: getWeatherSymbol(now.data.next_1_hours?.summary.symbol_code ?? now.data.next_6_hours?.summary.symbol_code ?? "cloudy"),
     updatedAt: data.properties.meta.updated_at,
   };
 
-  const hourly: HourlyForecast[] = series.slice(0, 48).map((s: YrTimeseries) => ({
-    time: s.time,
-    temperature: Math.round(s.data.instant.details.air_temperature ?? 0),
-    feelsLike: Math.round((s.data.instant.details.air_temperature ?? 0) - 2),
-    precipitation: s.data.next_1_hours?.details.precipitation_amount ?? 0,
-    precipitationProbability: s.data.next_1_hours?.details.probability_of_precipitation ?? 0,
-    windSpeed: Math.round((s.data.instant.details.wind_speed ?? 0) * 3.6), // m/s → km/h
-    windDirection: Math.round(s.data.instant.details.wind_from_direction ?? 0),
-    humidity: Math.round(s.data.instant.details.relative_humidity ?? 0),
-    uvIndex: Math.round(s.data.instant.details.ultraviolet_index_clear_sky ?? 0),
-    symbol: getWeatherSymbol(
-      s.data.next_1_hours?.summary.symbol_code ??
-      s.data.next_6_hours?.summary.symbol_code ??
-      "clearsky_day"
-    ),
-  }));
+  const timeline = series.map(toPoint);
+  const hourly = timeline.slice(0, 48);
 
-  // ── Build daily summaries by grouping ALL entries per date ──────────────────
-  // MET Norway provides timeseries every hour; to get accurate daily min/max we
-  // must scan ALL entries for each calendar date, not just the first one.
-
+  // ── Ditët: grupim sipas DATËS NË TIRANË (jo UTC) ────────────────────────────
   const byDate = new Map<string, YrTimeseries[]>();
   for (const s of series) {
-    const d = s.time.split("T")[0];
+    const d = tiraneDate(s.time);
     if (!byDate.has(d)) byDate.set(d, []);
     byDate.get(d)!.push(s);
   }
 
-  const dayNames = ["E Diel", "E Hënë", "E Martë", "E Mërkurë", "E Enjte", "E Premte", "E Shtunë"];
   const daily: DailyForecast[] = [];
-  let idx = 0;
-
+  let first = true;
   for (const [dateStr, entries] of byDate) {
     if (daily.length >= 10) break;
 
-    const temps = entries.map((e) => e.data.instant.details.air_temperature ?? 0);
-    const winds = entries.map((e) => e.data.instant.details.wind_speed ?? 0);
-
-    // Prefer next_6_hours min/max from the MET response when available (noon entry tends to have it)
-    let apiMax: number | null = null;
-    let apiMin: number | null = null;
-    let apiPrecip = 0;
-    let apiPrecipProb = 0;
-    let apiSymbolCode = "clearsky_day";
-
+    const temps: number[] = [];
+    let precipitation = 0;
+    let prob: number | null = null;
     for (const e of entries) {
+      const n1 = e.data.next_1_hours;
       const n6 = e.data.next_6_hours;
-      if (n6) {
-        if (n6.details.air_temperature_max != null && (apiMax === null || n6.details.air_temperature_max > apiMax))
-          apiMax = n6.details.air_temperature_max;
-        if (n6.details.air_temperature_min != null && (apiMin === null || n6.details.air_temperature_min < apiMin))
-          apiMin = n6.details.air_temperature_min;
-        apiPrecip += n6.details.precipitation_amount ?? 0;
-        // take max precipitation probability seen in any 6h window
-        const pp = n6.details.probability_of_precipitation ?? 0;
-        if (pp > apiPrecipProb) apiPrecipProb = pp;
-        // symbol from the midday entry (prefer 12:00 Z)
-        if (e.time.includes("T12:00") || apiSymbolCode === "clearsky_day") {
-          apiSymbolCode = n6.summary.symbol_code ?? apiSymbolCode;
-        }
+      temps.push(e.data.instant.details.air_temperature ?? 0);
+      // Pikat 6-orëshe: shto edhe min/max e dritares. Për "Sot" (vetëm orët e mbetura)
+      // shto edhe dritaret 6-orëshe, që diapazoni të mos dalë p.sh. 13°–13°.
+      if (n6 && (!n1 || first)) {
+        if (n6.details.air_temperature_max != null) temps.push(n6.details.air_temperature_max);
+        if (n6.details.air_temperature_min != null) temps.push(n6.details.air_temperature_min);
       }
+      // Reshjet: shuma e orëve (next_1_hours); për pikat 6-orëshe, dritarja 6-orëshe.
+      // (Mos mblidh next_6_hours të pikave orare — mbivendosen dhe e fryjnë shumën.)
+      precipitation += n1 ? n1.details.precipitation_amount ?? 0 : n6?.details.precipitation_amount ?? 0;
+      const p = n1?.details.probability_of_precipitation ?? n6?.details.probability_of_precipitation;
+      if (p != null) prob = Math.max(prob ?? 0, p);
     }
 
-    const tempMax = apiMax !== null ? Math.round(apiMax) : Math.round(Math.max(...temps));
-    const tempMin = apiMin !== null ? Math.round(apiMin) : Math.round(Math.min(...temps));
-    const windSpeed = Math.round(Math.max(...winds) * 3.6); // m/s → km/h, use peak wind for the day
-    const precipitation = +apiPrecip.toFixed(1);
-    const precipitationProbability = Math.round(apiPrecipProb);
-
-    // Best symbol: prefer noon entry's next_1_hours, fall back to next_6_hours
-    const noonEntry = entries.find((e) => e.time.includes("T12:00")) ?? entries[Math.floor(entries.length / 2)];
-    const symbolCode =
-      noonEntry?.data.next_1_hours?.summary.symbol_code ??
-      noonEntry?.data.next_6_hours?.summary.symbol_code ??
-      apiSymbolCode;
-
-    const d = new Date(dateStr + "T12:00:00Z");
+    // Simboli i ditës: pika më afër mesditës (ora lokale).
+    const noon = entries.reduce((best, e) =>
+      Math.abs(tiraneHour(e.time) - 13) < Math.abs(tiraneHour(best.time) - 13) ? e : best
+    );
+    const symbolCode = noon.data.next_1_hours?.summary.symbol_code ?? noon.data.next_6_hours?.summary.symbol_code ?? "cloudy";
 
     daily.push({
       date: dateStr,
-      dayLabel: idx === 0 ? "Sot" : idx === 1 ? "Nesër" : dayNames[d.getDay()],
-      tempMax,
-      tempMin,
-      precipitation,
-      precipitationProbability,
-      windSpeed,
+      dayLabel: dayLabelSq(dateStr),
+      tempMax: Math.round(Math.max(...temps)),
+      tempMin: Math.round(Math.min(...temps)),
+      precipitation: +precipitation.toFixed(1),
+      precipitationProbability: prob === null ? null : Math.round(prob),
+      windSpeed: Math.round(Math.max(...entries.map((e) => e.data.instant.details.wind_speed ?? 0)) * 3.6),
       symbol: getWeatherSymbol(symbolCode),
     });
-
-    idx++;
+    first = false;
   }
 
-  return { location, current, hourly, daily, alerts: [] };
+  return { location, current, hourly, timeline, daily, alerts: [] };
 }

@@ -10,28 +10,13 @@ import { useWeather } from "../context/WeatherContext";
 import { useSeo } from "../lib/seo";
 import type { LocationWeather, HourlyForecast, LocationInfo } from "../types/weather";
 import { countryLabel } from "../../shared/cityContent.js";
+import { tiraneDate, tiraneHour, tiraneTime, formatDateSq, dayLabelSq, formatMm } from "../lib/timeTirane";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function formatHour(isoTime: string): string {
-  const d = new Date(isoTime);
-  return d.toLocaleTimeString("sq-AL", { hour: "2-digit", minute: "2-digit", hour12: false });
-}
-
-function formatDate(dateStr: string): string {
-  const d = new Date(dateStr + "T12:00:00");
-  return d.toLocaleDateString("sq-AL", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
-}
-
-function getDayLabel(dateStr: string): string {
-  const today = new Date().toISOString().split("T")[0];
-  const tomorrow = new Date(Date.now() + 86400000).toISOString().split("T")[0];
-  if (dateStr === today) return "Sot";
-  if (dateStr === tomorrow) return "Nesër";
-  const d = new Date(dateStr + "T12:00:00");
-  const dayNames = ["E Diel", "E Hënë", "E Martë", "E Mërkurë", "E Enjte", "E Premte", "E Shtunë"];
-  return dayNames[d.getDay()];
-}
+// Orët dhe datat sipas Europe/Tirane, emrat në shqip (pa varësi nga locale i shfletuesit).
+const formatHour = (iso: string) => tiraneTime(iso);
+const formatDate = (dateStr: string) => formatDateSq(dateStr);
+const getDayLabel = (dateStr: string) => dayLabelSq(dateStr);
 
 // ─── JSON-LD ──────────────────────────────────────────────────────────────────
 
@@ -48,7 +33,7 @@ function buildJsonLd(
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": `Moti në ${city.nameAl} — ${dateFormatted}`,
-    "description": `Parashikimi i motit orë për orë për ${city.nameAl} më ${dateFormatted}. Temperatura${tempMax !== null ? ` deri ${tempMax}°C` : ""}, reshjet, era dhe lagështia.`,
+    "description": `Parashikimi i motit për ${city.nameAl} më ${dateFormatted}.${tempMin !== null && tempMax !== null ? ` Temperatura ${tempMin}°C – ${tempMax}°C.` : ""} Reshjet, era dhe lagështia sipas MET Norway.`,
     "url": `https://moti.com.al/vendbanim/${city.id}/dita/${dateStr}`,
     "inLanguage": "sq",
     "breadcrumb": {
@@ -60,20 +45,11 @@ function buildJsonLd(
         { "@type": "ListItem", "position": 4, "name": dateFormatted, "item": `https://moti.com.al/vendbanim/${city.id}/dita/${dateStr}` },
       ],
     },
-    ...(tempMax !== null && tempMin !== null ? {
-      "about": {
-        "@type": "Event",
-        "name": `Parashikimi i motit — ${city.nameAl} — ${dateFormatted}`,
-        "startDate": `${dateStr}T00:00:00`,
-        "endDate": `${dateStr}T23:59:59`,
-        "location": {
-          "@type": "Place",
-          "name": city.nameAl,
-          "geo": { "@type": "GeoCoordinates", "latitude": city.lat, "longitude": city.lon }
-        },
-        "description": `Temperatura min ${tempMin}°C, max ${tempMax}°C. Parashikimet orare sipas MET Norway.`
-      }
-    } : {}),
+    "about": {
+      "@type": "Place",
+      "name": city.nameAl,
+      "geo": { "@type": "GeoCoordinates", "latitude": city.lat, "longitude": city.lon },
+    },
   });
 }
 
@@ -81,6 +57,7 @@ function buildJsonLd(
 
 function HourlyRow({ hour, unit }: { hour: HourlyForecast; unit: "C" | "F" }) {
   const h = formatHour(hour.time);
+  const six = hour.stepHours === 6;
   return (
     <div className="flex items-center gap-3 px-4 py-3 hover:bg-white/[0.04] transition-colors rounded-xl">
       <span className="text-sm text-white/70 w-12 flex-shrink-0 font-mono">{h}</span>
@@ -90,12 +67,17 @@ function HourlyRow({ hour, unit }: { hour: HourlyForecast; unit: "C" | "F" }) {
       <span className="text-sm font-bold text-white w-14 flex-shrink-0 text-right">
         {formatTemp(hour.temperature, unit)}
       </span>
-      {hour.precipitationProbability > 0 && (
-        <div className="flex items-center gap-1 w-14 flex-shrink-0">
-          <Droplets className="w-3.5 h-3.5 text-sky-400 flex-shrink-0" />
-          <span className="text-xs text-sky-400">{hour.precipitationProbability}%</span>
-        </div>
-      )}
+      {/* Kolona e reshjeve shfaqet gjithmonë (mm në orën / 6 orët pasuese) */}
+      <div className="flex items-center gap-1 w-16 flex-shrink-0" title={six ? "Reshjet në 6 orët pasuese" : "Reshjet në orën pasuese"}>
+        {hour.precipitation >= 0.1 ? (
+          <>
+            <Droplets className="w-3.5 h-3.5 text-sky-400 flex-shrink-0" />
+            <span className="text-xs text-sky-400 whitespace-nowrap">{formatMm(hour.precipitation)}</span>
+          </>
+        ) : (
+          <span className="text-xs text-white/40">–</span>
+        )}
+      </div>
       <div className="flex items-center gap-1 flex-1 min-w-0">
         <Wind className="w-3.5 h-3.5 text-white/65 flex-shrink-0" />
         <span className="text-xs text-white/65 truncate">{hour.windSpeed} km/h {getWindDirection(hour.windDirection)}</span>
@@ -126,53 +108,32 @@ export const DayPage: React.FC = () => {
 
   const city = id ? getCityById(id) : undefined;
 
-  // Filter real hourly data for the requested date
-  const realHourlyForDay: HourlyForecast[] = (weather?.hourly ?? []).filter(
-    (h) => h.time.split("T")[0] === date
+  // Pikat reale të MET për këtë datë (sipas orës së Tiranës): orare deri ~60 orë,
+  // pastaj çdo 6 orë. Nuk shpikim kurba — tregojmë vetëm atë që jep MET.
+  const hourlyForDay: HourlyForecast[] = useMemo(
+    () =>
+      (weather?.timeline ?? weather?.hourly ?? [])
+        .filter((h) => tiraneDate(h.time) === date)
+        .sort((x, y) => x.time.localeCompare(y.time)),
+    [weather, date]
   );
+  const isSixHourly = hourlyForDay.some((h) => h.stepHours === 6);
 
-  // Daily summary entry for this date (always present for 10-day range)
   const dailyEntry = weather?.daily.find((d) => d.date === date);
 
-  // Build pseudo-hourly data from daily min/max when real hourly unavailable
-  const pseudoHourlyForDay: HourlyForecast[] = useMemo(() => {
-    if (!dailyEntry || !date) return [];
-    const { tempMin, tempMax, windSpeed, precipitationProbability, precipitation, symbol } = dailyEntry;
-    // Sinusoidal temperature curve: min at ~05:00, max at ~14:00
-    return Array.from({ length: 24 }, (_, hr) => {
-      const phase = ((hr - 5) / 24) * Math.PI * 2;
-      const frac = (Math.sin(phase - Math.PI / 2) + 1) / 2; // 0..1
-      const temp = Math.round(tempMin + frac * (tempMax - tempMin));
-      const isDaytime = hr >= 6 && hr < 20;
-      const timeStr = `${date}T${String(hr).padStart(2, "0")}:00:00Z`;
-      const hrPrecipProb = isDaytime ? precipitationProbability : Math.round(precipitationProbability * 0.6);
-      return {
-        time: timeStr,
-        temperature: temp,
-        feelsLike: temp - 2,
-        precipitation: hrPrecipProb > 30 ? +(precipitation / 8).toFixed(1) : 0,
-        precipitationProbability: hrPrecipProb,
-        windSpeed,
-        windDirection: 180,
-        humidity: 60 + Math.round(Math.sin(hr / 4) * 15),
-        uvIndex: isDaytime ? Math.round(frac * 6) : 0,
-        symbol: isDaytime ? symbol : { code: "clearsky_night", label: "Qiell i kthjellët", emoji: "🌙" },
-      } as HourlyForecast;
-    });
-  }, [dailyEntry, date]);
+  // Ndarje sipas orës lokale
+  const inRange = (from: number, to: number) =>
+    hourlyForDay.filter((h) => { const hr = tiraneHour(h.time); return hr >= from && hr < to; });
+  const night = inRange(0, 6);
+  const morning = inRange(6, 12);
+  const afternoon = inRange(12, 18);
+  const evening = inRange(18, 24);
 
-  // Use real hourly if available, else estimated pseudo-hourly
-  const hourlyForDay = realHourlyForDay.length > 0 ? realHourlyForDay : pseudoHourlyForDay;
-  const isEstimated = realHourlyForDay.length === 0 && pseudoHourlyForDay.length > 0;
-
-  // Split by time of day
-  const morning = hourlyForDay.filter((h) => { const hr = new Date(h.time).getHours(); return hr >= 6 && hr < 12; });
-  const afternoon = hourlyForDay.filter((h) => { const hr = new Date(h.time).getHours(); return hr >= 12 && hr < 18; });
-  const evening = hourlyForDay.filter((h) => { const hr = new Date(h.time).getHours(); return hr >= 18 && hr < 24; });
-  const night = hourlyForDay.filter((h) => { const hr = new Date(h.time).getHours(); return hr >= 0 && hr < 6; });
-
-  const tempMax = hourlyForDay.length ? Math.max(...hourlyForDay.map((h) => h.temperature)) : dailyEntry?.tempMax ?? null;
-  const tempMin = hourlyForDay.length ? Math.min(...hourlyForDay.map((h) => h.temperature)) : dailyEntry?.tempMin ?? null;
+  // Min/max i ditës: përmbledhja ditore (përfshin dritaret 6-orëshe) + pikat e orëve
+  const temps = hourlyForDay.map((h) => h.temperature);
+  if (dailyEntry) temps.push(dailyEntry.tempMin, dailyEntry.tempMax);
+  const tempMax = temps.length ? Math.max(...temps) : null;
+  const tempMin = temps.length ? Math.min(...temps) : null;
 
   // SEO per-faqe (titull, meta, canonical, JSON-LD)
   useSeo(
@@ -248,7 +209,7 @@ export const DayPage: React.FC = () => {
         <ChevronRight className="w-3 h-3 flex-shrink-0" />
         <Link to={`/vendbanim/${city.id}`} className="hover:text-moti-sky transition-colors font-medium">{city.nameAl}</Link>
         <ChevronRight className="w-3 h-3 flex-shrink-0" />
-        <span className="text-white/80 font-semibold">{dayLabel}</span>
+        <span className="text-white/80 font-semibold">{dateLabel}</span>
       </nav>
 
       {/* Back button */}
@@ -270,8 +231,8 @@ export const DayPage: React.FC = () => {
         <h1 className="text-2xl md:text-3xl font-display font-bold text-white leading-tight">
           Moti në {city.nameAl}
         </h1>
-        <p className="text-white/60 text-base mt-0.5 font-medium capitalize">{dateLabel}</p>
-        <p className="text-white/65 text-sm mt-0.5">Parashikimi orë për orë • MET Norway</p>
+        <p className="text-white/60 text-base mt-0.5 font-medium">{dayLabel === "Sot" || dayLabel === "Nesër" ? `${dayLabel} · ` : ""}{dateLabel}</p>
+        <p className="text-white/65 text-sm mt-0.5">{isSixHourly ? "Parashikimi çdo 6 orë" : "Parashikimi orë për orë"} • MET Norway</p>
       </div>
 
       {/* Day summary card */}
@@ -304,7 +265,7 @@ export const DayPage: React.FC = () => {
                 {dailyEntry && (
                   <div className="grid grid-cols-3 gap-3 w-full mt-2 pt-3 border-t border-white/[0.06]">
                     {[
-                      { icon: <Droplets className="w-3.5 h-3.5 text-sky-400" />, label: "Reshjet", value: `${dailyEntry.precipitationProbability}%` },
+                      { icon: <Droplets className="w-3.5 h-3.5 text-sky-400" />, label: "Reshjet", value: formatMm(dailyEntry.precipitation) },
                       { icon: <Wind className="w-3.5 h-3.5 text-white/65" />, label: "Era", value: `${dailyEntry.windSpeed} km/h` },
                       { icon: <Thermometer className="w-3.5 h-3.5 text-amber-400" />, label: "Temperatura", value: `${formatTemp(tempMin!, unit)} – ${formatTemp(tempMax!, unit)}` },
                     ].map(({ icon, label, value }) => (
@@ -347,11 +308,11 @@ export const DayPage: React.FC = () => {
           </div>
         ) : hourlyForDay.length > 0 ? (
           <div className="py-1">
-            {isEstimated && (
+            {isSixHourly && (
               <div className="mx-4 mt-3 mb-1 flex items-start gap-2 rounded-xl bg-amber-500/10 border border-amber-400/20 px-3 py-2.5">
                 <CalendarDays className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
                 <p className="text-xs text-amber-300/80 leading-relaxed">
-                  Parashikimi orar i detajuar është i disponueshëm vetëm për 48 orët e ardhshme. Vlerat e mëposhtme janë <strong>estimim bazuar në min/max ditore</strong> nga MET Norway.
+                  Për këtë ditë MET Norway jep parashikim <strong>çdo 6 orë</strong> (orë për orë mbulohen vetëm ~2.5 ditët e para). Reshjet në çdo rresht janë për 6 orët pasuese.
                 </p>
               </div>
             )}
@@ -385,11 +346,17 @@ export const DayPage: React.FC = () => {
           {[
             {
               q: `Sa është temperatura maksimale në ${city.nameAl} më ${dateLabel}?`,
-              a: tempMax !== null ? `Temperatura maksimale e parashikuar është ${tempMax}°C.` : "Të dhënat do të jenë të disponueshme së shpejti.",
+              a: tempMax !== null ? `Temperatura maksimale e parashikuar është ${formatTemp(tempMax, unit)}${unit}, minimalja ${formatTemp(tempMin!, unit)}${unit}.` : "Të dhënat do të jenë të disponueshme së shpejti.",
             },
             {
               q: `A ka reshje në ${city.nameAl} më ${dateLabel}?`,
-              a: dailyEntry ? (dailyEntry.precipitationProbability > 30 ? `Po, mundësia e reshjeve është ${dailyEntry.precipitationProbability}%.` : `Mundësia e reshjeve është e ulët (${dailyEntry.precipitationProbability}%).`) : "Shikoni parashikimin për detaje.",
+              a: dailyEntry
+                ? dailyEntry.precipitation >= 0.5
+                  ? `Po, parashikohen rreth ${formatMm(dailyEntry.precipitation)} reshje gjatë ditës (${dailyEntry.symbol.label.toLowerCase()}).`
+                  : dailyEntry.precipitation > 0
+                  ? `Vetëm reshje shumë të pakta (${formatMm(dailyEntry.precipitation)}).`
+                  : "Nuk parashikohen reshje."
+                : "Shikoni parashikimin për detaje.",
             },
             {
               q: `Sa është era në ${city.nameAl} gjatë ditës?`,

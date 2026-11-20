@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import type { HourlyForecast as HourlyForecastType } from "../../types/weather";
+import { tiraneDate, tiraneHour, formatMm } from "../../lib/timeTirane";
 import { formatTemp } from "../../lib/weatherSymbols";
 import { WeatherIcon } from "../WeatherIcon";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -12,9 +13,12 @@ interface HourlyForecastProps {
   cityId?: string;
 }
 
+function HourWrap({ to, children, ...rest }: { to?: string; className?: string; "aria-label"?: string; children: React.ReactNode }) {
+  return to ? <Link to={to} {...rest}>{children}</Link> : <div {...rest}>{children}</div>;
+}
+
 export const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly, unit, cityId }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
   const params = useParams<{ id?: string }>();
   const id = cityId ?? params.id;
 
@@ -23,7 +27,6 @@ export const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly, unit, ci
     scrollRef.current.scrollBy({ left: dir === "left" ? -220 : 220, behavior: "smooth" });
   };
 
-  const Tag = (id ? "button" : "div") as "button";
 
   return (
     <div className="animate-fade-up" style={{ animationDelay: "0.1s" }}>
@@ -45,21 +48,14 @@ export const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly, unit, ci
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {hourly.slice(0, 24).map((h, i) => {
-          const date = new Date(h.time);
           const isNow = i === 0;
-          const hour = date.getHours();
-          const label = isNow ? "Tani" : `${String(hour).padStart(2, "0")}:00`;
+          const label = isNow ? "Tani" : `${String(tiraneHour(h.time)).padStart(2, "0")}:00`;
 
           return (
-            <Tag
+            <HourWrap
               key={h.time}
-              {...(id
-                ? {
-                    type: "button" as const,
-                    onClick: () => navigate(`/vendbanim/${id}/dita/${h.time.split("T")[0]}`),
-                    "aria-label": `${label}: ${formatTemp(h.temperature, unit)}, ${h.symbol.label}. Shiko ditën`,
-                  }
-                : {})}
+              to={id ? `/vendbanim/${id}/dita/${tiraneDate(h.time)}` : undefined}
+              aria-label={`${label}: ${formatTemp(h.temperature, unit)}, ${h.symbol.label}`}
               className={`min-w-[64px] flex-shrink-0 snap-start flex flex-col items-center gap-2 px-2.5 py-3.5 rounded-2xl border transition-all
                 ${isNow
                   ? "bg-moti-sky/20 border-moti-sky/40 shadow-glow-sky"
@@ -69,10 +65,12 @@ export const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly, unit, ci
               <span className={`text-xs font-semibold ${isNow ? "text-moti-sky" : "text-white/70"}`}>{label}</span>
               <WeatherIcon emoji={h.symbol.emoji} size="sm" />
               <span className="text-sm font-bold text-white">{formatTemp(h.temperature, unit)}</span>
-              {h.precipitationProbability > 20 && (
+              {h.precipitation >= 0.1 ? (
+                <span className="text-xs text-sky-400 font-medium whitespace-nowrap">{formatMm(h.precipitation)}</span>
+              ) : (h.precipitationProbability ?? 0) > 20 ? (
                 <span className="text-xs text-sky-400 font-medium">{h.precipitationProbability}%</span>
-              )}
-            </Tag>
+              ) : null}
+            </HourWrap>
           );
         })}
       </div>
